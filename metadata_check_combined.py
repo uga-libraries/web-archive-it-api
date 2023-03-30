@@ -5,8 +5,6 @@
 # Usage: python /path/metadata_check_combined.py /path/output_directory [all_fields]
 #   Include "all_fields" as an optional second argument to include optional as well as required fields.
 
-# Ideas for improvement: use default location from configuration file for output directory if none supplied; add
-# limit by date to see just this download; differentiate between active and inactive collections.
 
 import csv
 import os

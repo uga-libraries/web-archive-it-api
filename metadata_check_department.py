@@ -5,10 +5,6 @@
 # Usage: python /path/metadata_check_department.py [/path/output_directory]
 # If the path for the output is not provided, the script uses the script output path from the configuration file.
 
-# Ideas for improvement:
-# add limit by date to see just this download;
-# differentiate between active and inactive collections.
-
 import csv
 import os
 import requests
