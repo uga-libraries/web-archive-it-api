@@ -1,0 +1,4 @@
+.idea
+configuration.py
+_pycache_
+*.pyc
