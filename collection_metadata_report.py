@@ -77,32 +77,33 @@ def make_metadata_list(collection_data, header_list):
     return metadata_list
 
 
-# Changes the current directory to the folder where the reports will be saved.
-# If this cannot be done, prints an error for the user and quits the script.
-try:
-    os.chdir(c.script_output)
-except FileNotFoundError:
-    print('The script_output directory in the configuration file does not exist.')
-    exit()
-
-# If the optional argument was provided, sets a variable optional to True.
-# If the argument is not the expected value, prints an error for the user and quits the script.
-include_optional = False
-if len(sys.argv) == 2:
-    if sys.argv[1] == "all_fields":
-        include_optional = True
-    else:
-        print('The provided value for the argument is not the expected value of "all_fields".')
+if __name__ == '__main__':
+    # Changes the current directory to the folder where the reports will be saved.
+    # If this cannot be done, prints an error for the user and quits the script.
+    try:
+        os.chdir(c.script_output)
+    except FileNotFoundError:
+        print('The script_output directory in the configuration file does not exist.')
         exit()
 
-# Gets the collections' metadata from the Archive-It Partner API.
-collections = get_metadata()
+    # If the optional argument was provided, sets a variable optional to True.
+    # If the argument is not the expected value, prints an error for the user and quits the script.
+    include_optional = False
+    if len(sys.argv) == 2:
+        if sys.argv[1] == "all_fields":
+            include_optional = True
+        else:
+            print('The provided value for the argument is not the expected value of "all_fields".')
+            exit()
 
-# Makes a CSV for the collection metadata report with a header row.
-header = get_header(include_optional)
-fun.save_csv_row("collection", header)
+    # Gets the collections' metadata from the Archive-It Partner API.
+    collections = get_metadata()
 
-# Saves the metadata for each collection to the collection metadata report.
-for collection in collections:
-    collection_row = make_metadata_list(collection, header)
-    fun.save_csv_row("collection", collection_row)
+    # Makes a CSV for the collection metadata report with a header row.
+    header = get_header(include_optional)
+    fun.save_csv_row("collection", header)
+
+    # Saves the metadata for each collection to the collection metadata report.
+    for collection in collections:
+        collection_row = make_metadata_list(collection, header)
+        fun.save_csv_row("collection", collection_row)
