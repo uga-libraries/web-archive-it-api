@@ -16,7 +16,7 @@ The report includes the following fields for all seeds in the UGA Archive-It Acc
     * Subject - only if all_fields
     * Title
 
-Script usage: python collection_metadata_report.py y [all_fields]
+Script usage: python collection_metadata_report.py [all_fields]
 Include "all_fields" as an optional argument to include optional as well as required fields.
 """
 import os
@@ -67,7 +67,7 @@ def make_metadata_list(collection_data, header_list):
     metadata_list = [collection_data['id'], collection_data['name']]
 
     # The function is for values within the metadata section.
-    # It works for everything except the first 2 and last values.
+    # It works for everything except the first 2 values and the last value.
     header_list = [field.replace(" [required]", "") for field in header_list]
     for field_name in header_list[2:-1]:
         metadata_list.append(fun.get_metadata_value(collection_data, field_name))
@@ -95,17 +95,14 @@ if len(sys.argv) == 2:
         print('The provided value for the argument is not the expected value of "all_fields".')
         exit()
 
-# Gets the collections metadata from the Archive-It Partner API.
+# Gets the collections' metadata from the Archive-It Partner API.
 collections = get_metadata()
 
 # Makes a CSV for the collection metadata report with a header row.
 header = get_header(include_optional)
 fun.save_csv_row("collection", header)
 
-# Gets the data for each collection's metadata and saves it to the collection metadata report.
-# Most can be looked up from the collections data using the field name in the header,
-# with the qualifier "[required]" removed when optional fields are part of the report.
-# The URL for the last field, Archive-It Metadata Page, is constructed by the script.
+# Saves the metadata for each collection to the collection metadata report.
 for collection in collections:
     collection_row = make_metadata_list(collection, header)
     fun.save_csv_row("collection", collection_row)
