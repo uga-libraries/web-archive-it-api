@@ -18,7 +18,7 @@ class MyTestCase(unittest.TestCase):
                     "Archive-It Metadata Page"]
         self.assertEqual(actual, expected, "Problem with test: true")
 
-    def test_api_error(self):
+    def test_false(self):
         """
         Tests the function returns the expected header list when the parameter is False.
         """
