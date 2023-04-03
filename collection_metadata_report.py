@@ -26,6 +26,57 @@ import configuration as c
 import shared_functions as fun
 
 
+def get_metadata():
+    """
+    Uses the Archive-It Partner API to get the metadata for all of the collections
+    and returns the json as a Python object.
+    If there was an error with the API call, quits the script.
+    """
+    collections_metadata = requests.get(f'{c.partner_api}/collection?limit=-1', auth=(c.username, c.password))
+    if not collections_metadata.status_code == 200:
+        print('Error with Archive-It API connection when getting collection report', collections_metadata.status_code)
+        exit()
+    py_collections_metadata = collections_metadata.json()
+    return py_collections_metadata
+
+
+def get_header(optional):
+    """
+    Returns a list with the columns for the CSV,
+    which are different depending on if required fields or all fields will be included.
+    """
+    required_header = ["ID", "Name", "Collector", "Date", "Description", "Title", "Archive-It Metadata Page"]
+
+    all_header = ["ID", "Name", "Collector [required]", "Creator", "Date [required]", "Description [required]",
+                  "Identifier", "Language", "Relation", "Rights", "Subject", "Title [required]",
+                  "Archive-It Metadata Page"]
+
+    if optional:
+        return all_header
+    else:
+        return required_header
+
+
+def make_metadata_list(collection_data, header_list):
+    """
+    Makes and returns a list of metadata values for a particular collection.
+    Most can be looked up from the collection's data using the field name in the header,
+    with the qualifier "[required]" removed when optional fields are part of the report.
+    The URL for the last field, Archive-It Metadata Page, is constructed by the script.
+    """
+    metadata_list = [collection_data['id'], collection_data['name']]
+
+    # The function is for values within the metadata section.
+    # It works for everything except the first 2 and last values.
+    header_list = [field.replace(" [required]", "") for field in header_list]
+    for field_name in header_list[2:-1]:
+        metadata_list.append(fun.get_metadata_value(collection_data, field_name))
+
+    metadata_list.append(f"{c.inst_page}/collections/{collection_data['id']}/metadata")
+
+    return metadata_list
+
+
 # Changes the current directory to the folder where the reports will be saved.
 # If this cannot be done, prints an error for the user and quits the script.
 try:
@@ -44,15 +95,17 @@ if len(sys.argv) == 2:
         print('The provided value for the argument is not the expected value of "all_fields".')
         exit()
 
-# Gets the Archive-It collection report with data on all the collections.
-# If there was an error with the API call, quits the script.
-collections = requests.get(f'{c.partner_api}/collection?limit=-1', auth=(c.username, c.password))
-if not collections.status_code == 200:
-    print('Error with Archive-It API connection when getting collection report', collections.status_code)
-    exit()
+# Gets the collections metadata from the Archive-It Partner API.
+collections = get_metadata()
 
-# Saves the collection data as a Python object.
-py_collections = collections.json()
+# Makes a CSV for the collection metadata report with a header row.
+header = get_header(include_optional)
+fun.save_csv_row("collection", header)
 
-# Saves the collection data to a CSV.
-fun.make_csv(py_collections, "collection", include_optional)
+# Gets the data for each collection's metadata and saves it to the collection metadata report.
+# Most can be looked up from the collections data using the field name in the header,
+# with the qualifier "[required]" removed when optional fields are part of the report.
+# The URL for the last field, Archive-It Metadata Page, is constructed by the script.
+for collection in collections:
+    collection_row = make_metadata_list(collection, header)
+    fun.save_csv_row("collection", collection_row)
