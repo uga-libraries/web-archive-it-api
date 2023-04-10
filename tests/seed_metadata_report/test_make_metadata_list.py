@@ -1,6 +1,6 @@
 """
 Tests for the make_metadata_list() function from the seed_metadata_report.py script.
-It converts the metadata for a single collection into a list, to use for saving to the CSV..
+It converts the metadata for a single seed into a list, to use for saving to the CSV..
 """
 import unittest
 from seed_metadata_report import make_metadata_list
