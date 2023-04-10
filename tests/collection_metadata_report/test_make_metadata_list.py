@@ -30,9 +30,10 @@ class MyTestCase(unittest.TestCase):
                   "Archive-It Metadata Page"]
         actual = make_metadata_list(test_data, header)
 
-        expected = [11071, "Trial 2018", "UGA Libraries", "NONE", "Captured 2018-2020",
-                    "Tests run by Archive-It for UGA.", "NONE", "NONE", "NONE", "NONE", "NONE",
-                    "Trial 2018", f"{inst_page}/collections/11071/metadata"]
+        expected = [11071, "Trial 2018", "UGA Libraries", "NO DATA OF THIS TYPE", "Captured 2018-2020",
+                    "Tests run by Archive-It for UGA.", "NO DATA OF THIS TYPE", "NO DATA OF THIS TYPE",
+                    "NO DATA OF THIS TYPE", "NO DATA OF THIS TYPE", "NO DATA OF THIS TYPE", "Trial 2018",
+                    f"{inst_page}/collections/11071/metadata"]
 
         self.assertEqual(actual, expected, "Problem with test: all metadata, optional missing.")
 
