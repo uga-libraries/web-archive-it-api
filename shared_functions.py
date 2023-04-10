@@ -31,11 +31,11 @@ def get_metadata_value(data, field):
         return 'NO DATA OF THIS TYPE'
 
 
-def save_csv_row(report_type, row_list):
+def save_csv_row(report_path, row_list):
     """
     Creates a CSV, if it doesn't already exist for this report,
     and saves the provided list as a new row in the spreadsheet.
     """
-    with open(f'{report_type}_metadata.csv', 'a', newline='') as output:
+    with open(report_path, 'a', newline='') as output:
         write = csv.writer(output)
         write.writerow(row_list)

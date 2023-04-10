@@ -19,7 +19,7 @@ The report includes the following fields for all seeds in the UGA Archive-It Acc
 Script usage: python seed_metadata_report.py [all_fields]
 Include "all_fields" as an optional argument to include optional as well as required fields.
 """
-import os
+from datetime import datetime
 import requests
 import sys
 import configuration as c
@@ -79,14 +79,6 @@ def make_metadata_list(seed_data, header_list):
 
 
 if __name__ == '__main__':
-    # Changes the current directory to the folder where the reports will be saved.
-    # If this cannot be done, prints an error for the user and quits the script.
-    try:
-        os.chdir(c.script_output)
-    except FileNotFoundError:
-        print('The script_output directory in the configuration file does not exist.')
-        exit()
-
     # Boolean for if optional fields should be included, based on the script argument.
     include_optional = fun.check_fields(sys.argv)
 
@@ -94,10 +86,11 @@ if __name__ == '__main__':
     seeds = get_metadata()
 
     # Makes a CSV for the seed metadata report with a header row.
+    report_path = f"{c.script_output}/seed_metadata_{datetime.today().strftime('%Y-%m-%d')}.csv"
     header = get_header(include_optional)
-    fun.save_csv_row("seed", header)
+    fun.save_csv_row(report_path, header)
 
     # Saves the metadata for each seed to the seed metadata report.
     for seed in seeds:
         seed_row = make_metadata_list(seed, header)
-        fun.save_csv_row("seed", seed_row)
+        fun.save_csv_row(report_path, seed_row)

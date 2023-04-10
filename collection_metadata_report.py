@@ -19,7 +19,7 @@ The report includes the following fields for all seeds in the UGA Archive-It Acc
 Script usage: python collection_metadata_report.py [all_fields]
 Include "all_fields" as an optional argument to include optional as well as required fields.
 """
-import os
+from datetime import datetime
 import requests
 import sys
 import configuration as c
@@ -78,14 +78,6 @@ def make_metadata_list(collection_data, header_list):
 
 
 if __name__ == '__main__':
-    # Changes the current directory to the folder where the reports will be saved.
-    # If this cannot be done, prints an error for the user and quits the script.
-    try:
-        os.chdir(c.script_output)
-    except FileNotFoundError:
-        print('The script_output directory in the configuration file does not exist.')
-        exit()
-
     # Boolean for if optional fields should be included, based on the script argument.
     include_optional = fun.check_fields(sys.argv)
 
@@ -93,10 +85,11 @@ if __name__ == '__main__':
     collections = get_metadata()
 
     # Makes a CSV for the collection metadata report with a header row.
+    report_path = f"{c.script_output}/collection_metadata_{datetime.today().strftime('%Y-%m-%d')}.csv"
     header = get_header(include_optional)
-    fun.save_csv_row("collection", header)
+    fun.save_csv_row(report_path, header)
 
     # Saves the metadata for each collection to the collection metadata report.
     for collection in collections:
         collection_row = make_metadata_list(collection, header)
-        fun.save_csv_row("collection", collection_row)
+        fun.save_csv_row(report_path, collection_row)
