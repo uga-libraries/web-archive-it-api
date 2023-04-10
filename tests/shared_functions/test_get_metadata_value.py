@@ -25,7 +25,7 @@ class MyTestCase(unittest.TestCase):
 
     def test_0_fields(self):
         """
-        Tests that the function returns the default text if the field is not in the data.
+        Tests that the function returns the correct text if the field is not in the data.
         """
         actual = get_metadata_value(self.test_data, "Description")
         expected = "NO DATA OF THIS TYPE"
@@ -33,7 +33,7 @@ class MyTestCase(unittest.TestCase):
 
     def test_1_field(self):
         """
-        Tests that the function returns the default text if the field is in the data once.
+        Tests that the function returns the correct text if the field is in the data once.
         """
         actual = get_metadata_value(self.test_data, "Title")
         expected = "Test Collection Title"
@@ -41,7 +41,7 @@ class MyTestCase(unittest.TestCase):
 
     def test_2_fields(self):
         """
-        Tests that the function returns the default text if the field is in the data twice.
+        Tests that the function returns the correct text if the field is in the data twice.
         """
         actual = get_metadata_value(self.test_data, "Language")
         expected = "Spanish;English"
