@@ -4,6 +4,17 @@ Purpose: functions used by more than one script for working with the Archive-It 
 import csv
 
 
+def check_fields(args):
+    """
+    Checks if the report should include required fields only or all metadata fields,
+    based on the optional second argument.
+    """
+    if len(args) == 2 and args[1] == "required":
+        return False
+    else:
+        return True
+
+
 def get_metadata_value(data, field):
     """
     Returns the value of a field in the Archive-It Partner API data within the metadata section.

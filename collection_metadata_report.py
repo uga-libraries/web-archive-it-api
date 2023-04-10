@@ -86,15 +86,8 @@ if __name__ == '__main__':
         print('The script_output directory in the configuration file does not exist.')
         exit()
 
-    # If the optional argument was provided, sets a variable optional to True.
-    # If the argument is not the expected value, prints an error for the user and quits the script.
-    include_optional = False
-    if len(sys.argv) == 2:
-        if sys.argv[1] == "all_fields":
-            include_optional = True
-        else:
-            print('The provided value for the argument is not the expected value of "all_fields".')
-            exit()
+    # Boolean for if optional fields should be included, based on the script argument.
+    include_optional = fun.check_fields(sys.argv)
 
     # Gets the collections' metadata from the Archive-It Partner API.
     collections = get_metadata()
