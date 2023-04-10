@@ -19,7 +19,7 @@ def get_metadata_value(data, field):
     """
     Returns the value of a field in the Archive-It Partner API data within the metadata section.
     If the field is repeated, returns a string with all of the values separated by semicolons.
-    If the  field is not in the data, returns the string NONE.
+    If the  field is not in the data, returns the string "NO DATA OF THIS TYPE".
     """
     try:
         values_list = []
@@ -28,7 +28,7 @@ def get_metadata_value(data, field):
         values = ';'.join(values_list)
         return values
     except KeyError:
-        return 'NONE'
+        return 'NO DATA OF THIS TYPE'
 
 
 def save_csv_row(report_type, row_list):
