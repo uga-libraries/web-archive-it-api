@@ -11,13 +11,22 @@ Use the Archive-It web archiving service APIs (Partner API and WASAPI) to genera
 Prior to using any of these scripts, create a file configuration.py, modeled after configuration_template.py,
 and save it to your local copy of this repository.
 
-## metadata_check_combined.py
-Generate reports of required collection and seed metadata fields 
-to check for completeness prior to downloading the WARCs and metadata for preservation.
-Information for all departments is saved in one report so the library metadata can be reviewed in aggregate.
+## collection_metadata_report.py
+Generate a CSV with all collection metadata in Archive-It:
+   * Collector - required
+   * Creator
+   * Date - required
+   * Description - required
+   * Identifier
+   * Language
+   * Relation
+   * Rights
+   * Subject
+   * Title - required
 
-Script usage: `python metadata_check_combined.py output_directory [all_fields]`
-Include "all_fields" to include optional as well as required fields in the report.
+Script usage: `python collection_metadata_report.py [required]`
+
+Include "required" to limit the report to required fields. Otherwise, all fields are included.
 
 ## metadata_check_department.py
 Generate reports of required collection and seed metadata fields 
@@ -26,6 +35,23 @@ Separate reports are made for each department (collector) so the results can be 
 
 Script usage: `python metadata_check_department.py [output_directory]`
 If the path for the output directory is not provided, it uses the script output path from the configuration file.
+
+## seed_metadata_report.py
+Generate a CSV with all seed metadata in Archive-It.
+   * Collector - required
+   * Creator - required
+   * Date - required
+   * Description
+   * Identifier - required
+   * Language - required
+   * Relation
+   * Rights - required
+   * Subject
+   * Title - required
+
+Script usage: `python seed_metadata_report.py [required]`
+
+Include "required" to limit the report to required fields. Otherwise, all fields are included.
 
 ## warc_csv.py
 Makes a CSV with information about each WARC saved during a specified time frame: 
