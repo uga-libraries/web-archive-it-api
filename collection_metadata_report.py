@@ -22,7 +22,12 @@ Include "all_fields" as an optional argument to include optional as well as requ
 from datetime import datetime
 import requests
 import sys
-import configuration as c
+try:
+    import configuration as c
+except ModuleNotFoundError:
+    print("File configuration.py is missing from the script repo.")
+    print("Use configuration_template.py to create this file.")
+    sys.exit()
 import shared_functions as fun
 
 
@@ -78,6 +83,9 @@ def make_metadata_list(collection_data, header_list):
 
 
 if __name__ == '__main__':
+    # Verifies the configuration file has the correct values.
+    fun.check_config()
+
     # Boolean for if optional fields should be included, based on the script argument.
     include_optional = fun.check_fields(sys.argv)
 
