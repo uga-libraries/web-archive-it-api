@@ -10,19 +10,19 @@ import configuration as c
 
 def check_config():
     """
-    Checks that all required variables are in the configuration file
-    and verifies their values are correct.
+    Checks that all required variables are in the configuration file and correct.
+    If there are any errors, prints an explanation and quits the script.
     """
     errors = []
 
-    # Validates that the path in script output exists on the local machine.
+    # Checks if the path in script_output exists on the local machine.
     try:
         if not os.path.exists(c.script_output):
             errors.append(f"Variable path '{c.script_output}' is not correct.")
     except AttributeError:
         errors.append("Variable 'script_output' is missing from the configuration file.")
 
-    # Validates that the API URLs, which are consistent values, are correct.
+    # Checks that the API URLs, which are consistent values, are correct.
     try:
         if c.partner_api != 'https://partner.archive-it.org/api':
             errors.append("Partner API path is not correct.")
@@ -34,7 +34,7 @@ def check_config():
     except AttributeError:
         errors.append("Variable 'wasapi' is missing from the configuration file.")
 
-    # Validates that the institution page exists on the internet.
+    # Checks that the institution page exists.
     try:
         response = requests.get(c.inst_page)
         if response.status_code != 200:
@@ -42,7 +42,7 @@ def check_config():
     except AttributeError:
         errors.append("Variable 'inst_page' is missing from the configuration file.")
 
-    # Verifies that the username and password are present.
+    # Checks that the username and password are present.
     try:
         c.username
     except AttributeError:
@@ -52,13 +52,13 @@ def check_config():
     except AttributeError:
         errors.append("Variable 'password' is missing from the configuration file.")
 
-    # Validates that the credentials are correct by using them with an API call.
-    # This only works if the partner_api variable was in the configuration file.
+    # Checks that the credentials are correct by using them with an API call.
+    # This only works if the partner_api variable is in the configuration file.
     try:
         response = requests.get(f'{c.partner_api}/seed?limit=5', auth=(c.username, c.password))
         if response.status_code != 200:
             errors.append("Could not access Partner API with provided credentials. "
-                          "Check if the partner_api, username, and password variables have errors.")
+                          "Check if the partner_api, username, and/or password variables have errors.")
     except AttributeError:
         errors.append("Variables 'partner_api', 'username', and/or 'password' are missing from the configuration file.")
 
@@ -74,7 +74,7 @@ def check_config():
 def check_fields(args):
     """
     Checks if the report should include required fields only or all metadata fields,
-    based on the optional second argument.
+    based on the optional argument.
     """
     if len(args) == 2 and args[1] == "required":
         return False
@@ -84,9 +84,9 @@ def check_fields(args):
 
 def get_metadata_value(data, field):
     """
-    Returns the value of a field in the Archive-It Partner API data within the metadata section.
+    Returns the value of a field in the Archive-It Partner API data, from within the metadata section.
     If the field is repeated, returns a string with all of the values separated by semicolons.
-    If the  field is not in the data, returns the string "NO DATA OF THIS TYPE".
+    If the field is not in the data, returns the string "NO DATA OF THIS TYPE".
     """
     try:
         values_list = []
