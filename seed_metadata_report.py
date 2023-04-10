@@ -1,23 +1,25 @@
 """
-Purpose: Generate reports of seed metadata fields added by the archivist to the Archive-it Interface.
+Purpose: Generate a report of seed metadata fields from Archive-It.
+The report is saved to the script_output folder, which is defined in configuration.py
 The report can include just required fields (from the UGA Metadata Profile) or all fields.
 The primary uses are to verify metadata is complete prior to a preservation download and
 to review and batch edit the metadata.
 
-The report includes the following fields for all seeds in the UGA Archive-It Account:
-    * Collector
-    * Creator
-    * Date
-    * Description - only if all_fields
-    * Identifier
-    * Language
-    * Relation - only if all_fields
-    * Rights
-    * Subject - only if all_fields
-    * Title
+The report includes the following fields for all seeds:
+    * Collector - required
+    * Creator - required
+    * Date - required
+    * Description
+    * Identifier - required
+    * Language - required
+    * Relation
+    * Rights - required
+    * Subject
+    * Title - required
 
-Script usage: python seed_metadata_report.py [all_fields]
-Include "all_fields" as an optional argument to include optional as well as required fields.
+Script usage: python seed_metadata_report.py [required]
+Include "required" as an optional argument to only include the required fields.
+If there is no argument or it is some other text besides required, the report will have all fields.
 """
 from datetime import datetime
 import requests
@@ -25,7 +27,7 @@ import sys
 try:
     import configuration as c
 except ModuleNotFoundError:
-    print("File configuration.py is missing from the script repo.")
+    print("File configuration.py is missing from the script folder.")
     print("Use configuration_template.py to create this file.")
     sys.exit()
 import shared_functions as fun
@@ -39,7 +41,7 @@ def get_metadata():
     """
     seeds_metadata = requests.get(f'{c.partner_api}/seed?limit=-1', auth=(c.username, c.password))
     if not seeds_metadata.status_code == 200:
-        print('Error with Archive-It API connection when getting seed report', seeds_metadata.status_code)
+        print('Error with Archive-It API connection when getting seed metadata', seeds_metadata.status_code)
         exit()
     py_seeds_metadata = seeds_metadata.json()
     return py_seeds_metadata
@@ -67,7 +69,7 @@ def make_metadata_list(seed_data, header_list):
     """
     Makes and returns a list of metadata values for a particular seed.
     Most can be looked up from the collection's data using the field name in the header,
-    with the qualifier "[required]" removed when optional fields are part of the report.
+    with the qualifier "[required]" removed when all fields are part of the report.
     The URL for the last field, Archive-It Metadata Page, is constructed by the script.
     """
     metadata_list = [seed_data['id'], seed_data['url']]
