@@ -69,6 +69,30 @@ def get_metadata(start):
     return py_warc_data
 
 
+def get_seed_id(warc_name):
+    """
+    Uses a regular expression to identify the Seed Id component of the WARC filename and returns the Seed ID.
+    """
+    try:
+        regex = re.match(r'^.*?SEED(\d+)-', warc_name)
+        seed_id = regex.group(1)
+    except AttributeError:
+        seed_id = "COULD NOT CALCULATE"
+    return seed_id
+
+
+def get_size(bytes):
+    """
+    Converts the size from bytes (value from API) to GB.
+    As long as it won't result in 0, round to 2 decimal places.
+    Returns the size in GB.
+    """
+    size = float(bytes) / 1000000000
+    if size > 0.01:
+        size = round(size, 2)
+    return size
+
+
 def get_title(seed):
     """Uses the Partner API to get the seed report for this seed, which includes the seed title.
     Returns the title or an error message to put in the CSV in place of the title."""
@@ -115,56 +139,14 @@ if __name__ == '__main__':
     # Gets the WARC data from WASAPI and converts to Python.
     metadata = get_metadata(earliest_date)
 
-    # Starts dictionaries for crawl definitions and titles.
-    # These are looked up via the API for each WARC, which is slow.
-    # Saving time by saving the results since there are many WARCs with the same values.
-    JOB_TO_CRAWL = {}
-    SEED_TO_TITLE = {}
+    # Makes a CSV for the warc metadata report with a header row.
+    report_path = f"{c.script_output}/warc_metadata_report.csv"
+    fun.save_csv_row(report_path, ["WARC Filename", "AIT Collection", "Seed", "Job", "Date (store-time)",
+                                   "Size (GB)", "Crawl Def", "AIP Title", "MD5"])
 
-    # Starts a CSV file, with a header, for the WARC data.
-    # It is saved to the script output folder indicated in the configuration file.
-    WARC_CSV = open(os.path.join(c.script_output, "warc_metadata_report.csv"), "w", newline="")
-    CSV_WRITER = csv.writer(WARC_CSV)
-    CSV_WRITER.writerow(["WARC Filename", "AIT Collection", "Seed", "Job", "Date (store-time)",
-                         "Size (GB)", "Crawl Def", "AIP", "AIP Title", "MD5"])
-
-    # Gets the data for each WARC.
-    for warc in metadata["files"]:
-        filename = warc["filename"]
-        size = warc["size"]
-        collection = warc["collection"]
-        job_id = warc["crawl"]
-        store_time = warc["store-time"]
-        md5 = warc["checksums"]["md5"]
-
-        # Gets the seed id from the WARC filename.
-        try:
-            regex = re.match(r'^.*?SEED(\d+)-', filename)
-            seed_id = regex.group(1)
-        except AttributeError:
-            seed_id = "COULD NOT CALCULATE"
-
-        # Converts the size from bytes to GB.
-        # As long as it won't result in 0, round to 2 decimal places.
-        size = float(size) / 1000000000
-        if size > 0.01:
-            size = round(size, 2)
-
-        # Gets the crawl definition from the dictionary (if previously calculated) or API.
-        try:
-            crawl_def = JOB_TO_CRAWL[job_id]
-        except KeyError:
-            crawl_def = get_crawl_def(job_id)
-            JOB_TO_CRAWL[job_id] = crawl_def
-
-        # Gets the seed/AIP title from the dictionary (if previously calculated) or API.
-        try:
-            title = SEED_TO_TITLE[seed_id]
-        except KeyError:
-            title = get_title(seed_id)
-            SEED_TO_TITLE[seed_id] = title
-
-        # Saves the WARC data as a row in the CSV.
-        CSV_WRITER.writerow([filename, collection, seed_id, job_id, store_time, size, crawl_def, "", title, md5])
-
-    WARC_CSV.close()
+    # Saves the metadata for each warc to the warc metadata report.
+    for warc in metadata['files']:
+        seed_id = get_seed_id(warc['filename'])
+        warc_row = [warc['filename'], warc['collection'], seed_id, warc['crawl'], warc['store-time'],
+                    get_size(warc['size']), get_crawl_def(warc['crawl']), get_title(seed_id), warc['checksums']['md5']]
+        fun.save_csv_row(report_path, warc_row)
