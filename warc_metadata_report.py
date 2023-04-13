@@ -1,4 +1,8 @@
-"""Makes a CSV with information about each WARC saved during a specified time frame:
+"""
+Purpose: Generate a report of WARC metadata from Archive-It.
+The report is saved to the script_output folder, which is defined in configuration.py
+
+The report includes the following fields:
     * WARC Filename
     * AIT Collection ID
     * Seed ID
@@ -7,14 +11,17 @@
     * Size (GB)
     * Crawl Definition ID
     * Seed Title
+    * WARC MD5
 
-Using this script instead of the WASAPI CSV download so data can be manipulated,
-added from the Partner API, and reformatted.
+Use this script instead of the WASAPI CSV download option in the web browser
+so data can be manipulated, added from the Partner API, and reformatted.
 
 UGA uses this script to generate a list of all WARCs expected in the quarterly preservation download
-and adds them to a WARC Inventory for all downloaded WARCs to track that nothing is missed."""
+and adds them to a WARC Inventory for all downloaded WARCs to track that nothing is missed.
 
-# Script usage: python path\\warc_metadata_report.py earliest_date
+Script usage: python warc_metadata_report.py earliest_date
+WARCs stored on the earliest_date will be included in the report.
+"""
 
 import csv
 import os
