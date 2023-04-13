@@ -29,7 +29,7 @@ class MyTestCase(unittest.TestCase):
         Tests that the function returns the expected text for a job id that is not in Archive-It.
         """
         actual = get_crawl_def("0")
-        expected = "No crawl definition in Archive-It"
+        expected = "Cannot get crawl definition: Job ID is not in Archive-It"
         self.assertEqual(actual, expected, "Problem with test for job id that is not in Archive-It")
 
 

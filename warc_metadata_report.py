@@ -58,7 +58,7 @@ def get_crawl_def(job):
         crawl_definition = py_job_report[0]["crawl_definition"]
         return crawl_definition
     except (KeyError, IndexError):
-        return "No crawl definition in Archive-It"
+        return "Cannot get crawl definition: Job ID is not in Archive-It"
 
 
 if __name__ == '__main__':
