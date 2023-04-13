@@ -22,7 +22,13 @@ import re
 import requests
 import sys
 
-import configuration as c
+try:
+    import configuration as c
+except ModuleNotFoundError:
+    print("File configuration.py is missing from the script folder.")
+    print("Use configuration_template.py to create this file.")
+    sys.exit()
+import shared_functions as fun
 
 
 def check_argument(argument_list):
@@ -93,6 +99,9 @@ def get_crawl_def(job):
 
 
 if __name__ == '__main__':
+    # Verifies the configuration file has the correct values.
+    fun.check_config()
+
     # Gets the earliest date for WARCs to include in the CSV from the script argument.
     earliest_date = check_argument(sys.argv)
 
