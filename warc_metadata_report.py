@@ -25,6 +25,23 @@ import sys
 import configuration as c
 
 
+def check_argument(argument_list):
+    """
+    Verifies the required argument is present and is formatted like a date.
+    Returns the date or if there is an error, quits the script.
+    """
+    try:
+        date = argument_list[1]
+        if not re.match(r'\d{4}-\d{2}-\d{2}', date):
+            print('Date argument must be formatted YYYY-MM-DD. Please try the script again.')
+            sys.exit()
+    except IndexError:
+        print("Missing required date argument for limiting the WARCs to include.")
+        sys.exit()
+
+    return date
+
+
 def get_metadata(start):
     """Uses WASAPI to get metadata for all WARCs stored during the specified date range.
     Returns the metadata as a python object.
@@ -77,19 +94,10 @@ def get_crawl_def(job):
 
 if __name__ == '__main__':
     # Gets the earliest date for WARCs to include in the CSV from the script argument.
-    # If it is missing or not formatted like a date, prints an error and quits the script.
-    try:
-        EARLIEST_DATE = sys.argv[1]
-        if not re.match(r'\d{4}-\d{2}-\d{2}', EARLIEST_DATE):
-            print('Date argument must be formatted YYYY-MM-DD. Please try the script again.')
-            sys.exit()
-    except IndexError:
-        print("Missing required date argument for limiting the WARCs to include.")
-        print("Script usage: python path\\warc_metadata_report.py earliest_date")
-        sys.exit()
+    earliest_date = check_argument(sys.argv)
 
     # Gets the WARC data from WASAPI and converts to Python.
-    metadata = get_metadata(EARLIEST_DATE)
+    metadata = get_metadata(earliest_date)
 
     # Starts dictionaries for crawl definitions and titles.
     # These are looked up via the API for each WARC, which is slow.
