@@ -25,6 +25,20 @@ import sys
 import configuration as c
 
 
+def get_metadata(start):
+    """Uses WASAPI to get metadata for all WARCs stored during the specified date range.
+    Returns the metadata as a python object.
+    If there is an API error, quits the script."""
+
+    filters = {'store-time-after': start, 'page_size': 1000}
+    warc_data = requests.get(c.wasapi, params=filters, auth=(c.username, c.password))
+    if not warc_data.status_code == 200:
+        print("WASAPI error, ending script. See log for details.")
+        sys.exit()
+    py_warc_data = warc_data.json()
+    return py_warc_data
+
+
 def get_title(seed):
     """Uses the Partner API to get the seed report for this seed, which includes the seed title.
     Returns the title or an error message to put in the CSV in place of the title."""
@@ -75,13 +89,7 @@ if __name__ == '__main__':
         sys.exit()
 
     # Gets the WARC data from WASAPI and converts to Python.
-    # If there is an API error, quits the script.
-    FILTERS = {'store-time-after': EARLIEST_DATE, 'page_size': 1000}
-    WARC_DATA = requests.get(c.wasapi, params=FILTERS, auth=(c.username, c.password))
-    if not WARC_DATA.status_code == 200:
-        print("WASAPI error, ending script. See log for details.")
-        sys.exit()
-    PY_WARC_DATA = WARC_DATA.json()
+    metadata = get_metadata(EARLIEST_DATE)
 
     # Starts dictionaries for crawl definitions and titles.
     # These are looked up via the API for each WARC, which is slow.
@@ -91,13 +99,13 @@ if __name__ == '__main__':
 
     # Starts a CSV file, with a header, for the WARC data.
     # It is saved to the script output folder indicated in the configuration file.
-    WARC_CSV = open(os.path.join(c.script_output, "converted_warc_xml.csv"), "w", newline="")
+    WARC_CSV = open(os.path.join(c.script_output, "warc_metadata_report.csv"), "w", newline="")
     CSV_WRITER = csv.writer(WARC_CSV)
     CSV_WRITER.writerow(["WARC Filename", "AIT Collection", "Seed", "Job", "Date (store-time)",
                          "Size (GB)", "Crawl Def", "AIP", "AIP Title", "MD5"])
 
     # Gets the data for each WARC.
-    for warc in PY_WARC_DATA["files"]:
+    for warc in metadata["files"]:
         filename = warc["filename"]
         size = warc["size"]
         collection = warc["collection"]
