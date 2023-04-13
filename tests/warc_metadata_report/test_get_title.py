@@ -10,11 +10,11 @@ class MyTestCase(unittest.TestCase):
 
     def test_api_error(self):
         """
-        Tests that the function returns the expected API error text for a seed id that is not formated correctly.
+        Tests that the function returns the expected API error text for a seed id that is not formatted correctly.
         """
-        actual = get_title("abc")
+        actual = get_title("error")
         expected = "API Error for seed report"
-        self.assertEqual(actual, expected, "Problem with test for api error")
+        self.assertEqual(actual, expected, "Problem with test for API error")
 
     def test_seed_with_title(self):
         """
