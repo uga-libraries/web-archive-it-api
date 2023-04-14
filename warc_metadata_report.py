@@ -70,24 +70,32 @@ def get_crawl_definition(job):
         return "Cannot get crawl definition: Job ID is not in Archive-It"
 
 
-def get_seed_title(seed):
+def get_seed_metadata(seed):
     """
     Uses the Partner API to get the seed report for this seed, which includes the seed title.
     Returns the title or an error message to put in the CSV in place of the title.
     """
 
     # Gets the seed report using the Partner API.
-    seed_report = requests.get(f'{c.partner_api}/seed?id={seed}', auth=(c.username, c.password))
+    seed_report = requests.get(f"{c.partner_api}/seed?id={seed}", auth=(c.username, c.password))
     if not seed_report.status_code == 200:
-        return "API Error for seed report"
-
-    # Reads the seed report and extracts the title.
+        return f"Cannot get collector. API error {seed_report.status_code} for seed report.", \
+               f"Cannot get title. API error {seed_report.status_code} for seed report."
     py_seed_report = seed_report.json()
+
+    # Gets the collector (department) from the seed report, or supplies default text if there is no department.
     try:
-        seed_title = py_seed_report[0]["metadata"]["Title"][0]["value"]
-        return seed_title
+        collector = py_seed_report[0]['metadata']['Collector'][0]['value']
     except (KeyError, IndexError):
-        return "No title in Archive-It"
+        collector = "No collector in Archive-It"
+
+    # Gets the title from the seed report, or supplies default text if there is no title.
+    try:
+        title = py_seed_report[0]['metadata']['Title'][0]['value']
+    except (KeyError, IndexError):
+        title = "No title in Archive-It"
+
+    return collector, title
 
 
 def get_warc_metadata(start, end):
@@ -183,13 +191,16 @@ if __name__ == '__main__':
 
     # Makes a CSV for the warc metadata report with a header row.
     report_path = f"{c.script_output}/warc_metadata_report_{start_date}_{end_date}.csv"
-    fun.save_csv_row(report_path, ["AIP_Title", "WARC_Filename", "AIT_Collection_ID", "Seed_ID", "Job_ID",
-                                   "Crawl_Definition_ID", "Date_Store-Time", "Date_Crawl-Start", "Date_Crawl-End", "Size_GB", "File_Type", "MD5_Checksum", "SHA1_Checksum"])
+    fun.save_csv_row(report_path, ["AIP_Title", "Department", "WARC_Filename", "AIT_Collection_ID", "Seed_ID",
+                                   "Job_ID", "Crawl_Definition_ID", "Date_Store-Time", "Date_Crawl-Start",
+                                   "Date_Crawl-End", "Size_GB", "File_Type", "MD5_Checksum", "SHA1_Checksum"])
 
     # Saves the metadata for each warc to the warc metadata report.
     for warc in metadata['files']:
         seed_id = calculate_seed_id(warc['filename'])
-        warc_row = [get_seed_title(seed_id),
+        seed_collector, seed_title = get_seed_metadata(seed_id)
+        warc_row = [seed_title,
+                    seed_collector,
                     warc['filename'],
                     warc['collection'],
                     seed_id,
