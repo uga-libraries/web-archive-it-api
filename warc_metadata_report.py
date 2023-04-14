@@ -23,7 +23,7 @@ Script usage: python warc_metadata_report.py start_date end_date
 WARCs stored on the start_date will be included in the report.
 WARCs stored on the end_date will NOT be included in the report.
 """
-
+from datetime import datetime
 import re
 import requests
 import sys
@@ -161,8 +161,12 @@ def verify_dates(argument_list):
 
     # If start and end dates were correctly formatted, and so assigned to the variables,
     # checks if the start date is later than or the same as the end date, which is an error.
-    if start and end and start >= end:
-        errors.append("The first argument must be an earlier date than the second.")
+    # Converts start and end from strings to dates for more accurage comparison.
+    if start and end:
+        start_as_date = datetime.strptime(start, '%Y-%m-%d')
+        end_as_date = datetime.strptime(end, '%Y-%m-%d')
+        if start_as_date >= end_as_date:
+            errors.append("The first argument must be an earlier date than the second.")
 
     return start, end, errors
 
