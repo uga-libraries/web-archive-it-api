@@ -183,12 +183,19 @@ if __name__ == '__main__':
 
     # Makes a CSV for the warc metadata report with a header row.
     report_path = f"{c.script_output}/warc_metadata_report_{start_date}_{end_date}.csv"
-    fun.save_csv_row(report_path, ["WARC Filename", "AIT Collection", "Seed", "Job", "Date (store-time)",
-                                   "Size (GB)", "Crawl Def", "AIP Title", "MD5"])
+    fun.save_csv_row(report_path, ["AIP_Title", "WARC_Filename", "AIT_Collection_ID", "Seed_ID", "Job_ID",
+                                   "Crawl_Definition_ID", "Date_Store-Time)", "Size_GB", "MD5_Checksum"])
 
     # Saves the metadata for each warc to the warc metadata report.
     for warc in metadata['files']:
         seed_id = calculate_seed_id(warc['filename'])
-        warc_row = [warc['filename'], warc['collection'], seed_id, warc['crawl'], warc['store-time'],
-                    size_to_gb(warc['size']), get_crawl_definition(warc['crawl']), get_seed_title(seed_id), warc['checksums']['md5']]
+        warc_row = [get_seed_title(seed_id),
+                    warc['filename'],
+                    warc['collection'],
+                    seed_id,
+                    warc['crawl'],
+                    get_crawl_definition(warc['crawl']),
+                    warc['store-time'],
+                    size_to_gb(warc['size']),
+                    warc['checksums']['md5']]
         fun.save_csv_row(report_path, warc_row)
