@@ -19,12 +19,11 @@ so data can be manipulated, added from the Partner API, and reformatted.
 UGA uses this script to generate a list of all WARCs expected in the quarterly preservation download
 and adds them to a WARC Inventory for all downloaded WARCs to track that nothing is missed.
 
-Script usage: python warc_metadata_report.py earliest_date
-WARCs stored on the earliest_date will be included in the report.
+Script usage: python warc_metadata_report.py start_date end_date
+WARCs stored on the start_date will be included in the report.
+WARCs stored on the end_date will NOT be included in the report.
 """
 
-import csv
-import os
 import re
 import requests
 import sys
@@ -38,40 +37,58 @@ except ModuleNotFoundError:
 import shared_functions as fun
 
 
-def check_argument(argument_list):
+def check_arguments(argument_list):
     """
-    Verifies the required argument is present and is formatted like a date.
-    Returns the date or if there is an error, quits the script.
+    Verifies the two required arguments (start and end date) are present and correct.
+    Returns the dates and errors list, which is empty if there were no errors.
     """
+    start = None
+    end = None
+    errors = []
+
+    # Checks if the first argument (start date) is present and formatted YYYY-MM-DD.
     try:
-        date = argument_list[1]
-        if not re.match(r'\d{4}-\d{2}-\d{2}', date):
-            print('Date argument must be formatted YYYY-MM-DD. Please try the script again.')
-            sys.exit()
+        if re.match(r"\d{4}-\d{2}-\d{2}", argument_list[1]):
+            start = argument_list[1]
+        else:
+            errors.append(f"First argument '{argument_list[1]}' is not formatted YYYY-MM-DD.")
     except IndexError:
-        print("Missing required date argument for limiting the WARCs to include.")
-        sys.exit()
+        errors.append("First argument (start date) is missing.")
 
-    return date
+    # Checks if the second argument (end date) is present and formatted YYYY-MM-DD.
+    try:
+        if re.match(r"\d{4}-\d{2}-\d{2}", argument_list[2]):
+            end = argument_list[2]
+        else:
+            errors.append(f"Second argument '{argument_list[2]}' is not formatted YYYY-MM-DD.")
+    except IndexError:
+        errors.append("Second argument (end date) is missing.")
+
+    # If start and end dates were correctly formatted, and so assigned to the variables,
+    # checks if the start date is later than or the same as the end date, which is an error.
+    if start and end and start >= end:
+        errors.append("The first argument must be an earlier date than the second.")
+
+    return start, end, errors
 
 
-def get_metadata(start):
+def get_metadata(start, end):
     """Uses WASAPI to get metadata for all WARCs stored during the specified date range.
-    Returns the metadata as a python object.
-    If there is an API error, quits the script."""
+    WARCs saved on the start date will be included. WARCs saved on the end date will not be included.
+    Returns the metadata as a python object or raises an error."""
 
-    filters = {'store-time-after': start, 'page_size': 1000}
+    filters = {'store-time-after': start, 'store-time-before': end, 'page_size': 1000}
     warc_data = requests.get(c.wasapi, params=filters, auth=(c.username, c.password))
     if not warc_data.status_code == 200:
-        print("WASAPI error, ending script. See log for details.")
-        sys.exit()
+        raise ValueError
     py_warc_data = warc_data.json()
     return py_warc_data
 
 
 def get_seed_id(warc_name):
     """
-    Uses a regular expression to identify the Seed Id component of the WARC filename and returns the Seed ID.
+    Uses a regular expression to identify the Seed Id component of the WARC filename.
+    Returns the Seed ID.
     """
     try:
         regex = re.match(r'^.*?SEED(\d+)-', warc_name)
@@ -94,8 +111,10 @@ def get_size(size_bytes):
 
 
 def get_title(seed):
-    """Uses the Partner API to get the seed report for this seed, which includes the seed title.
-    Returns the title or an error message to put in the CSV in place of the title."""
+    """
+    Uses the Partner API to get the seed report for this seed, which includes the seed title.
+    Returns the title or an error message to put in the CSV in place of the title.
+    """
 
     # Gets the seed report using the Partner API.
     seed_report = requests.get(f'{c.partner_api}/seed?id={seed}', auth=(c.username, c.password))
@@ -112,8 +131,10 @@ def get_title(seed):
 
 
 def get_crawl_def(job):
-    """Uses the Partner API to get the report for this job, which includes the crawl definition.
-    Returns the crawl definition id or an error message to put in the CSV in its place."""
+    """
+    Uses the Partner API to get the report for this job, which includes the crawl definition.
+    Returns the crawl definition id or an error message to put in the CSV in its place.
+    """
 
     # Gets the crawl job report using the Partner API.
     job_report = requests.get(f'{c.partner_api}/crawl_job?id={job}', auth=(c.username, c.password))
@@ -130,14 +151,26 @@ def get_crawl_def(job):
 
 
 if __name__ == '__main__':
+
     # Verifies the configuration file has the correct values.
     fun.check_config()
 
-    # Gets the earliest date for WARCs to include in the CSV from the script argument.
-    earliest_date = check_argument(sys.argv)
+    # Gets the date range for WARCs to include in the CSV from the script arguments and any errors.
+    # If there were errors, quits the script.
+    start_date, end_date, errors_list = check_arguments(sys.argv)
+    if len(errors_list) > 0:
+        print("\nThe following errors were detected with the script arguments.")
+        for error in errors_list:
+            print(f"    * {error}")
+        sys.exit()
 
     # Gets the WARC data from WASAPI and converts to Python.
-    metadata = get_metadata(earliest_date)
+    # If there was an API error, quits the script.
+    try:
+        metadata = get_metadata(start_date, end_date)
+    except ValueError:
+        print("\nCould not get the WARC metadata due to a WASAPI API error.")
+        sys.exit()
 
     # Makes a CSV for the warc metadata report with a header row.
     report_path = f"{c.script_output}/warc_metadata_report.csv"
