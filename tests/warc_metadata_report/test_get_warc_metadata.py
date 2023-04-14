@@ -43,7 +43,7 @@ class MyTestCase(unittest.TestCase):
                     'next': None,
                     'previous': None,
                     'request-url': 'http://warcs.archive-it.org/wasapi/v1/webdata?store-time-after=2019-09-01&'
-                                   'store-time-before=2019-09-15&page_size=1000'}
+                                   'store-time-before=2019-09-15&page_size=500'}
 
         self.assertEqual(actual, expected, "Problem with test for one warc.")
 
@@ -142,7 +142,7 @@ class MyTestCase(unittest.TestCase):
                     'next': None,
                     'previous': None,
                     'request-url': 'http://warcs.archive-it.org/wasapi/v1/webdata?store-time-after=2021-03-15&'
-                                   'store-time-before=2021-03-19&page_size=1000'}
+                                   'store-time-before=2021-03-19&page_size=500'}
 
         self.assertEqual(actual, expected, "Problem with test for multiple warcs.")
 
@@ -225,7 +225,7 @@ class MyTestCase(unittest.TestCase):
                     'next': None,
                     'previous': None,
                     'request-url': 'http://warcs.archive-it.org/wasapi/v1/webdata?store-time-after=2022-04-04&'
-                                   'store-time-before=2022-04-06&page_size=1000'}
+                                   'store-time-before=2022-04-06&page_size=500'}
 
         self.assertEqual(actual, expected, "Problem with test for a WARC on the start date.")
 
@@ -274,9 +274,19 @@ class MyTestCase(unittest.TestCase):
                     'next': None,
                     'previous': None,
                     'request-url': 'http://warcs.archive-it.org/wasapi/v1/webdata?store-time-after=2022-10-20&'
-                                   'store-time-before=2022-10-26&page_size=1000'}
+                                   'store-time-before=2022-10-26&page_size=500'}
 
         self.assertEqual(actual, expected, "Problem with test for warcs on the end date.")
+
+    def test_over_page_limit(self):
+        """
+        Tests that the function returns metadata for the expected number of WARCs
+        for a date range with more than the standard number of 500.
+        """
+        data = get_warc_metadata("2022-12-03", "2022-12-07")
+        actual = len(data['files'])
+        expected = 511
+        self.assertEqual(actual, expected, "Problem with test for over the page limit.")
 
 
 if __name__ == '__main__':

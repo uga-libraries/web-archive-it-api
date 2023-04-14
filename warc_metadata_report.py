@@ -93,14 +93,23 @@ def get_seed_title(seed):
 def get_warc_metadata(start, end):
     """Uses WASAPI to get metadata for all WARCs stored during the specified date range.
     WARCs saved on the start date will be included. WARCs saved on the end date will not be included.
-    Returns the metadata as a python object or raises an error."""
+    Returns the WARC metadata, which is json, or raises an error."""
 
-    filters = {'store-time-after': start, 'store-time-before': end, 'page_size': 1000}
+    # Gets the data from WASAPI using a page size (number of WARCs) that is typically sufficient.
+    filters = {'store-time-after': start, 'store-time-before': end, 'page_size': 500}
     warc_data = requests.get(c.wasapi, params=filters, auth=(c.username, c.password))
     if not warc_data.status_code == 200:
         raise ValueError
-    py_warc_data = warc_data.json()
-    return py_warc_data
+
+    # If there were more WARCs in the date range (the count) than the page size,
+    # gets the data again from WASAPI with an updated page size to get them all.
+    if warc_data.json()['count'] > 500:
+        filters = {'store-time-after': start, 'store-time-before': end, 'page_size': warc_data.json()['count']}
+        warc_data = requests.get(c.wasapi, params=filters, auth=(c.username, c.password))
+        if not warc_data.status_code == 200:
+            raise ValueError
+
+    return warc_data.json()
 
 
 def size_to_gb(size_bytes):
