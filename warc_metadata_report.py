@@ -75,19 +75,19 @@ def get_seed_id(warc_name):
     """
     try:
         regex = re.match(r'^.*?SEED(\d+)-', warc_name)
-        seed_id = regex.group(1)
+        id = regex.group(1)
     except AttributeError:
-        seed_id = "COULD NOT CALCULATE"
-    return seed_id
+        id = "COULD NOT CALCULATE"
+    return id
 
 
-def get_size(bytes):
+def get_size(size_bytes):
     """
     Converts the size from bytes (value from API) to GB.
     As long as it won't result in 0, round to 2 decimal places.
     Returns the size in GB.
     """
-    size = float(bytes) / 1000000000
+    size = float(size_bytes) / 1000000000
     if size > 0.01:
         size = round(size, 2)
     return size
