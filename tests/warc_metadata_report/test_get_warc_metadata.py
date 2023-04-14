@@ -1,9 +1,9 @@
 """
-Tests for the get_metadata function from the warc_metadata_report.py script.
+Tests for the get_warc_metadata function from the warc_metadata_report.py script.
 It returns the WARC metadata from WASAPI or raises an error.
 """
 import unittest
-from warc_metadata_report import get_metadata
+from warc_metadata_report import get_warc_metadata
 
 
 class MyTestCase(unittest.TestCase):
@@ -14,13 +14,13 @@ class MyTestCase(unittest.TestCase):
         Causes the error by giving the API incorrectly formatted parameters.
         """
         with self.assertRaises(ValueError):
-            get_metadata("date_error_1", "date_error_2")
+            get_warc_metadata("date_error_1", "date_error_2")
 
     def test_one_warc(self):
         """
         Tests that the function returns the expected values for a date range with one WARC.
         """
-        actual = get_metadata("2019-09-01", "2019-09-15")
+        actual = get_warc_metadata("2019-09-01", "2019-09-15")
         expected = {'count': 1,
                     'files': [{'account': 1468,
                                'checksums': {'md5': '9f3ca7026dd55bcfc02567081f27b1c8',
@@ -51,7 +51,7 @@ class MyTestCase(unittest.TestCase):
         """
         Tests that the function returns the expected values for a date range with multiple days.
         """
-        actual = get_metadata("2021-03-15", "2021-03-19")
+        actual = get_warc_metadata("2021-03-15", "2021-03-19")
         expected = {'count': 5,
                     'files': [{'account': 1468,
                                'checksums': {'md5': '610bb6c3179c75f7909ab1cf7b908c64',
@@ -151,7 +151,7 @@ class MyTestCase(unittest.TestCase):
         Tests that the function returns the expected values for a date range with a WARC on the start date.
         WARCs stored on the start date are included.
         """
-        actual = get_metadata("2022-04-04", "2022-04-06")
+        actual = get_warc_metadata("2022-04-04", "2022-04-06")
         expected = {'count': 4,
                     'files': [{'account': 1468,
                                'checksums': {'md5': 'fd11ce8ba58f2f38f4c26d60915815f1',
@@ -234,7 +234,7 @@ class MyTestCase(unittest.TestCase):
         Tests that the function returns the expected values for a date range with WARCs on the end date.
         WARCs stored on the end date are not included.
         """
-        actual = get_metadata("2022-10-20", "2022-10-26")
+        actual = get_warc_metadata("2022-10-20", "2022-10-26")
         expected = {'count': 2,
                     'files': [{'account': 1468,
                                'checksums': {'md5': 'f4d75988249684d270c030cf366f9e13',

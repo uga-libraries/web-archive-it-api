@@ -37,7 +37,85 @@ except ModuleNotFoundError:
 import shared_functions as fun
 
 
-def check_arguments(argument_list):
+def calculate_seed_id(warc_name):
+    """
+    Uses a regular expression to identify the Seed Id component of the WARC filename.
+    Returns the Seed ID.
+    """
+    try:
+        regex = re.match(r'^.*?SEED(\d+)-', warc_name)
+        id = regex.group(1)
+    except AttributeError:
+        id = "COULD NOT CALCULATE"
+    return id
+
+
+def get_crawl_definition(job):
+    """
+    Uses the Partner API to get the report for this job, which includes the crawl definition.
+    Returns the crawl definition id or an error message to put in the CSV in its place.
+    """
+
+    # Gets the crawl job report using the Partner API.
+    job_report = requests.get(f'{c.partner_api}/crawl_job?id={job}', auth=(c.username, c.password))
+    if not job_report.status_code == 200:
+        return "API Error for job report"
+
+    # Reads the crawl job report and extracts the crawl definition identifier.
+    py_job_report = job_report.json()
+    try:
+        crawl_definition = py_job_report[0]["crawl_definition"]
+        return crawl_definition
+    except (KeyError, IndexError):
+        return "Cannot get crawl definition: Job ID is not in Archive-It"
+
+
+def get_seed_title(seed):
+    """
+    Uses the Partner API to get the seed report for this seed, which includes the seed title.
+    Returns the title or an error message to put in the CSV in place of the title.
+    """
+
+    # Gets the seed report using the Partner API.
+    seed_report = requests.get(f'{c.partner_api}/seed?id={seed}', auth=(c.username, c.password))
+    if not seed_report.status_code == 200:
+        return "API Error for seed report"
+
+    # Reads the seed report and extracts the title.
+    py_seed_report = seed_report.json()
+    try:
+        seed_title = py_seed_report[0]["metadata"]["Title"][0]["value"]
+        return seed_title
+    except (KeyError, IndexError):
+        return "No title in Archive-It"
+
+
+def get_warc_metadata(start, end):
+    """Uses WASAPI to get metadata for all WARCs stored during the specified date range.
+    WARCs saved on the start date will be included. WARCs saved on the end date will not be included.
+    Returns the metadata as a python object or raises an error."""
+
+    filters = {'store-time-after': start, 'store-time-before': end, 'page_size': 1000}
+    warc_data = requests.get(c.wasapi, params=filters, auth=(c.username, c.password))
+    if not warc_data.status_code == 200:
+        raise ValueError
+    py_warc_data = warc_data.json()
+    return py_warc_data
+
+
+def size_to_gb(size_bytes):
+    """
+    Converts the size from bytes (value from API) to GB.
+    As long as it won't result in 0, round to 2 decimal places.
+    Returns the size in GB.
+    """
+    size = float(size_bytes) / 1000000000
+    if size > 0.01:
+        size = round(size, 2)
+    return size
+
+
+def verify_dates(argument_list):
     """
     Verifies the two required arguments (start and end date) are present and correct.
     Returns the dates and errors list, which is empty if there were no errors.
@@ -72,84 +150,6 @@ def check_arguments(argument_list):
     return start, end, errors
 
 
-def get_metadata(start, end):
-    """Uses WASAPI to get metadata for all WARCs stored during the specified date range.
-    WARCs saved on the start date will be included. WARCs saved on the end date will not be included.
-    Returns the metadata as a python object or raises an error."""
-
-    filters = {'store-time-after': start, 'store-time-before': end, 'page_size': 1000}
-    warc_data = requests.get(c.wasapi, params=filters, auth=(c.username, c.password))
-    if not warc_data.status_code == 200:
-        raise ValueError
-    py_warc_data = warc_data.json()
-    return py_warc_data
-
-
-def get_seed_id(warc_name):
-    """
-    Uses a regular expression to identify the Seed Id component of the WARC filename.
-    Returns the Seed ID.
-    """
-    try:
-        regex = re.match(r'^.*?SEED(\d+)-', warc_name)
-        id = regex.group(1)
-    except AttributeError:
-        id = "COULD NOT CALCULATE"
-    return id
-
-
-def get_size(size_bytes):
-    """
-    Converts the size from bytes (value from API) to GB.
-    As long as it won't result in 0, round to 2 decimal places.
-    Returns the size in GB.
-    """
-    size = float(size_bytes) / 1000000000
-    if size > 0.01:
-        size = round(size, 2)
-    return size
-
-
-def get_title(seed):
-    """
-    Uses the Partner API to get the seed report for this seed, which includes the seed title.
-    Returns the title or an error message to put in the CSV in place of the title.
-    """
-
-    # Gets the seed report using the Partner API.
-    seed_report = requests.get(f'{c.partner_api}/seed?id={seed}', auth=(c.username, c.password))
-    if not seed_report.status_code == 200:
-        return "API Error for seed report"
-
-    # Reads the seed report and extracts the title.
-    py_seed_report = seed_report.json()
-    try:
-        seed_title = py_seed_report[0]["metadata"]["Title"][0]["value"]
-        return seed_title
-    except (KeyError, IndexError):
-        return "No title in Archive-It"
-
-
-def get_crawl_def(job):
-    """
-    Uses the Partner API to get the report for this job, which includes the crawl definition.
-    Returns the crawl definition id or an error message to put in the CSV in its place.
-    """
-
-    # Gets the crawl job report using the Partner API.
-    job_report = requests.get(f'{c.partner_api}/crawl_job?id={job}', auth=(c.username, c.password))
-    if not job_report.status_code == 200:
-        return "API Error for job report"
-
-    # Reads the crawl job report and extracts the crawl definition identifier.
-    py_job_report = job_report.json()
-    try:
-        crawl_definition = py_job_report[0]["crawl_definition"]
-        return crawl_definition
-    except (KeyError, IndexError):
-        return "Cannot get crawl definition: Job ID is not in Archive-It"
-
-
 if __name__ == '__main__':
 
     # Verifies the configuration file has the correct values.
@@ -157,7 +157,7 @@ if __name__ == '__main__':
 
     # Gets the date range for WARCs to include in the CSV from the script arguments and any errors.
     # If there were errors, quits the script.
-    start_date, end_date, errors_list = check_arguments(sys.argv)
+    start_date, end_date, errors_list = verify_dates(sys.argv)
     if len(errors_list) > 0:
         print("\nThe following errors were detected with the script arguments.")
         for error in errors_list:
@@ -167,7 +167,7 @@ if __name__ == '__main__':
     # Gets the WARC data from WASAPI and converts to Python.
     # If there was an API error, quits the script.
     try:
-        metadata = get_metadata(start_date, end_date)
+        metadata = get_warc_metadata(start_date, end_date)
     except ValueError:
         print("\nCould not get the WARC metadata due to a WASAPI API error.")
         sys.exit()
@@ -179,7 +179,7 @@ if __name__ == '__main__':
 
     # Saves the metadata for each warc to the warc metadata report.
     for warc in metadata['files']:
-        seed_id = get_seed_id(warc['filename'])
+        seed_id = calculate_seed_id(warc['filename'])
         warc_row = [warc['filename'], warc['collection'], seed_id, warc['crawl'], warc['store-time'],
-                    get_size(warc['size']), get_crawl_def(warc['crawl']), get_title(seed_id), warc['checksums']['md5']]
+                    size_to_gb(warc['size']), get_crawl_definition(warc['crawl']), get_seed_title(seed_id), warc['checksums']['md5']]
         fun.save_csv_row(report_path, warc_row)

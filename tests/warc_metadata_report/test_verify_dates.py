@@ -1,9 +1,9 @@
 """
-Tests for the check_arguments function from the warc_metadata_report.py script.
-It verifies the two required arguments are correct and returns them or quits the script.
+Tests for the verify_dates function from the warc_metadata_report.py script.
+It verifies the two required arguments are correct and returns them plus errors.
 """
 import unittest
-from warc_metadata_report import check_arguments
+from warc_metadata_report import verify_dates
 
 
 class MyTestCase(unittest.TestCase):
@@ -13,7 +13,7 @@ class MyTestCase(unittest.TestCase):
         Tests that the function returns the expected values if the first argument is earlier than the second.
         This is the only correct way to indicate a date range.
         """
-        actual = check_arguments(["C:/path/warc_metadata_report.py", "2017-11-01", "2018-01-01"])
+        actual = verify_dates(["C:/path/warc_metadata_report.py", "2017-11-01", "2018-01-01"])
         expected = ("2017-11-01", "2018-01-01", [])
         self.assertEqual(actual, expected, "Problem with test: correct.")
 
@@ -21,7 +21,7 @@ class MyTestCase(unittest.TestCase):
         """
         Tests that the function returns the expected values if the first argument is the same as the second.
         """
-        actual = check_arguments(["C:/path/warc_metadata_report.py", "2017-11-01", "2017-11-01"])
+        actual = verify_dates(["C:/path/warc_metadata_report.py", "2017-11-01", "2017-11-01"])
         expected = ("2017-11-01", "2017-11-01", ["The first argument must be an earlier date than the second."])
         self.assertEqual(actual, expected, "Problem with test: first argument date is the same as the second.")
 
@@ -29,7 +29,7 @@ class MyTestCase(unittest.TestCase):
         """
         Tests that the function returns the expected values if the first argument is a later date than the second.
         """
-        actual = check_arguments(["C:/path/warc_metadata_report.py", "2017-11-01", "2016-04-01"])
+        actual = verify_dates(["C:/path/warc_metadata_report.py", "2017-11-01", "2016-04-01"])
         expected = ("2017-11-01", "2016-04-01", ["The first argument must be an earlier date than the second."])
         self.assertEqual(actual, expected, "Problem with test for error: first date is later.")
 
@@ -37,7 +37,7 @@ class MyTestCase(unittest.TestCase):
         """
         Tests that the function returns the expected values if the first argument is not formatted correctly.
         """
-        actual = check_arguments(["C:/path/warc_metadata_report.py", "2017/11/01", "2018-01-01"])
+        actual = verify_dates(["C:/path/warc_metadata_report.py", "2017/11/01", "2018-01-01"])
         expected = (None, "2018-01-01", ["First argument '2017/11/01' is not formatted YYYY-MM-DD."])
         self.assertEqual(actual, expected, "Problem with test for error: start date format.")
 
@@ -45,7 +45,7 @@ class MyTestCase(unittest.TestCase):
         """
         Tests that the function returns the expected values if the second argument is not formatted correctly.
         """
-        actual = check_arguments(["C:/path/warc_metadata_report.py", "2017-11-01", "2018-1-1"])
+        actual = verify_dates(["C:/path/warc_metadata_report.py", "2017-11-01", "2018-1-1"])
         expected = ("2017-11-01", None, ["Second argument '2018-1-1' is not formatted YYYY-MM-DD."])
         self.assertEqual(actual, expected, "Problem with test for error: end date format.")
 
@@ -53,7 +53,7 @@ class MyTestCase(unittest.TestCase):
         """
         Tests that the function returns the expected values if both required arguments are missing.
         """
-        actual = check_arguments(["C:/path/warc_metadata_report.py"])
+        actual = verify_dates(["C:/path/warc_metadata_report.py"])
         expected = (None, None, ["First argument (start date) is missing.", "Second argument (end date) is missing."])
         self.assertEqual(actual, expected, "Problem with test for error: missing both arguments.")
 
@@ -61,7 +61,7 @@ class MyTestCase(unittest.TestCase):
         """
         Tests that the function returns the expected values if the second required argument is missing.
         """
-        actual = check_arguments(["C:/path/warc_metadata_report.py", "2017-11-01"])
+        actual = verify_dates(["C:/path/warc_metadata_report.py", "2017-11-01"])
         expected = ("2017-11-01", None, ["Second argument (end date) is missing."])
         self.assertEqual(actual, expected, "Problem with test for error: missing second arguments")
 
