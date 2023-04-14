@@ -197,7 +197,7 @@ if __name__ == '__main__':
     # The date range is the dates WARCs could have been stored,
     # which is one day sooner than the end_date due to how the API works.
     warc_last_date = (datetime.strptime(end_date, '%Y-%m-%d') - timedelta(days=1)).strftime('%Y-%m-%d')
-    report_path = f"{c.script_output}/warc_metadata_report_{start_date}_{warc_last_date}.csv"
+    report_path = f"{c.script_output}/warc_metadata_{start_date}_{warc_last_date}.csv"
     fun.save_csv_row(report_path, ["AIP_Title", "Department", "WARC_Filename", "AIT_Collection_ID", "Seed_ID",
                                    "Job_ID", "Crawl_Definition_ID", "Date_Store-Time", "Date_Crawl-Start",
                                    "Date_Crawl-End", "Size_GB", "File_Type", "MD5_Checksum", "SHA1_Checksum"])
