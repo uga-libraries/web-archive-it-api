@@ -23,7 +23,7 @@ Script usage: python warc_metadata_report.py start_date end_date
 WARCs stored on the start_date will be included in the report.
 WARCs stored on the end_date will NOT be included in the report.
 """
-from datetime import datetime
+from datetime import datetime, timedelta
 import re
 import requests
 import sys
@@ -161,7 +161,7 @@ def verify_dates(argument_list):
 
     # If start and end dates were correctly formatted, and so assigned to the variables,
     # checks if the start date is later than or the same as the end date, which is an error.
-    # Converts start and end from strings to dates for more accurage comparison.
+    # Converts start and end from strings to dates for more accurate comparison.
     if start and end:
         start_as_date = datetime.strptime(start, '%Y-%m-%d')
         end_as_date = datetime.strptime(end, '%Y-%m-%d')
@@ -194,7 +194,10 @@ if __name__ == '__main__':
         sys.exit()
 
     # Makes a CSV for the warc metadata report with a header row.
-    report_path = f"{c.script_output}/warc_metadata_report_{start_date}_{end_date}.csv"
+    # The date range is the dates WARCs could have been stored,
+    # which is one day sooner than the end_date due to how the API works.
+    warc_last_date = (datetime.strptime(end_date, '%Y-%m-%d') - timedelta(days=1)).strftime('%Y-%m-%d')
+    report_path = f"{c.script_output}/warc_metadata_report_{start_date}_{warc_last_date}.csv"
     fun.save_csv_row(report_path, ["AIP_Title", "Department", "WARC_Filename", "AIT_Collection_ID", "Seed_ID",
                                    "Job_ID", "Crawl_Definition_ID", "Date_Store-Time", "Date_Crawl-Start",
                                    "Date_Crawl-End", "Size_GB", "File_Type", "MD5_Checksum", "SHA1_Checksum"])
