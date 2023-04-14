@@ -173,7 +173,7 @@ if __name__ == '__main__':
         sys.exit()
 
     # Makes a CSV for the warc metadata report with a header row.
-    report_path = f"{c.script_output}/warc_metadata_report.csv"
+    report_path = f"{c.script_output}/warc_metadata_report_{start_date}_{end_date}.csv"
     fun.save_csv_row(report_path, ["WARC Filename", "AIT Collection", "Seed", "Job", "Date (store-time)",
                                    "Size (GB)", "Crawl Def", "AIP Title", "MD5"])
 
