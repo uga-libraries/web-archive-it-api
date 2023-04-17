@@ -12,7 +12,7 @@ class MyTestCase(unittest.TestCase):
     def test_all_optional_missing(self):
         """
         Tests that the function returns the expected list of metadata values
-        when all fields are included and all optional fields are missing.
+        when all fields are to be included and all optional fields are missing.
         """
 
         test_data = {'active': True, 'canonical_url': 'https://gcdd.org/', 'collection': 12264,
@@ -50,7 +50,7 @@ class MyTestCase(unittest.TestCase):
     def test_all_once(self):
         """
         Tests that the function returns the expected list of metadata values
-        when all fields are included and all fields occur once.
+        when all fields are to be included and all fields occur once.
         """
 
         test_data = {'active': True, 'canonical_url': 'https://gcdd.org/', 'collection': 12264,
@@ -94,7 +94,7 @@ class MyTestCase(unittest.TestCase):
     def test_all_twice(self):
         """
         Tests that the function returns the expected list of metadata values
-        when all fields are included and all repeatable fields occur twice.
+        when all fields are to be included and all repeatable fields occur twice.
         """
 
         test_data = {'active': True, 'canonical_url': 'https://gcdd.org/', 'collection': 12264,
@@ -142,7 +142,7 @@ class MyTestCase(unittest.TestCase):
     def test_required_once(self):
         """
         Tests that the function returns the expected list of metadata values
-        when only required fields are included and all fields occur once.
+        when only required fields are to be included and all fields occur once.
         """
 
         test_data = {'active': True, 'canonical_url': 'https://gbp.georgia.gov/', 'collection': 15678,
@@ -176,7 +176,7 @@ class MyTestCase(unittest.TestCase):
     def test_required_twice(self):
         """
         Tests that the function returns the expected list of metadata values
-        when only required fields are included all repeatable fields occur twice.
+        when only required fields are to be included and all repeatable fields occur twice.
         """
 
         test_data = {'active': True, 'canonical_url': 'https://gbp.georgia.gov/', 'collection': 15678,
