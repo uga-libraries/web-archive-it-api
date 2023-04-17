@@ -34,7 +34,7 @@ class MyTestCase(unittest.TestCase):
             reader = csv.reader(open_file)
             actual = list(reader)
 
-        expected = [["AIP_Title", "Department", "WARC_Filename", "AIT_Collection_ID", "Seed_ID", "Job_ID",
+        expected = [["AIP_Title", "Department", "WARC_Filename", "AIT_Collection_ID", "Seed_ID", "Crawl_Job_ID",
                      "Crawl_Definition_ID", "Date_Store-Time", "Date_Crawl-Start", "Date_Crawl-End", "Size_GB",
                      "File_Type", "MD5_Checksum", "SHA1_Checksum"],
                     ["UGA Black Theatrical Ensemble Twittter", "Hargrett Rare Book & Manuscript Library",
@@ -88,7 +88,7 @@ class MyTestCase(unittest.TestCase):
             reader = csv.reader(open_file)
             actual = list(reader)
 
-        expected = [["AIP_Title", "Department", "WARC_Filename", "AIT_Collection_ID", "Seed_ID", "Job_ID",
+        expected = [["AIP_Title", "Department", "WARC_Filename", "AIT_Collection_ID", "Seed_ID", "Crawl_Job_ID",
                      "Crawl_Definition_ID", "Date_Store-Time", "Date_Crawl-Start", "Date_Crawl-End", "Size_GB",
                      "File_Type", "MD5_Checksum", "SHA1_Checksum"],
                     ["Adela Yelton - Home | Facebook",
@@ -167,7 +167,7 @@ class MyTestCase(unittest.TestCase):
             reader = csv.reader(open_file)
             actual = list(reader)
 
-        expected = [["AIP_Title", "Department", "WARC_Filename", "AIT_Collection_ID", "Seed_ID", "Job_ID",
+        expected = [["AIP_Title", "Department", "WARC_Filename", "AIT_Collection_ID", "Seed_ID", "Crawl_Job_ID",
                      "Crawl_Definition_ID", "Date_Store-Time", "Date_Crawl-Start", "Date_Crawl-End", "Size_GB",
                      "File_Type", "MD5_Checksum", "SHA1_Checksum"],
                     ["Georgia Office of Attorney General Consumer Protection Division",
