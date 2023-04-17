@@ -10,7 +10,8 @@ The report includes the following fields for all included seeds:
    * Seed_ID
    * Crawl_Job_IDs: separated with semicolon if more than one
    * Crawl_Definition_IDs: separated with semicolon if more than one
-   * WARCs: number of WARCs for the seed
+   * WARC_Count: number of WARCs for the seed
+   * WARC_Size_GB: number of GB for all WARCs for the seed
    * Batch [blank column for tracking progress]
    * Script_Log_Results [blank column for tracking progress]
    * Completeness_Log_Results [blank column for tracking progress]
@@ -66,3 +67,13 @@ if __name__ == '__main__':
 
     # Reads the WARC metadata report into a pandas dataframe.
     df = pd.read_csv(input_path)
+
+    # # Seed metadata that is consistent for every WARC in that seed.
+    seed_df = df[['AIP_Title', 'Department', 'AIT_Collection_ID', 'Seed_ID']].copy()
+    seed_df = seed_df.drop_duplicates()
+
+    # Subtotal with number of WARCs for each Seed ID.
+    warc_count = df.groupby(['Seed_ID'])['Seed_ID'].count()
+
+    # Subtotal with number of GB for each Seed ID.
+    warc_size_gb = df.groupby(['Seed_ID'])['Size_GB'].sum()
