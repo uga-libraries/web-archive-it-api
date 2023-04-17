@@ -13,8 +13,8 @@ The report includes the following fields for all included seeds:
    * WARC_Count: number of WARCs for the seed
    * WARC_Size_GB: number of GB for all WARCs for the seed
    * Batch [blank column for tracking progress]
-   * Script_Log_Results [blank column for tracking progress]
-   * Completeness_Log_Results [blank column for tracking progress]
+   * Script_Log [blank column for tracking progress]
+   * Completeness_Log [blank column for tracking progress]
    * QC1 [blank column for tracking progress]
    * Upload [blank column for tracking progress]
    * Ingest [blank column for tracking progress]
@@ -24,8 +24,10 @@ The report includes the following fields for all included seeds:
 Script usage: python preservation_download_tracker.py warc_metadata_path
 warc_metadata_path is the location of the WARC metadata report, created using warc_metadata_report.py
 """
+from datetime import datetime, timedelta
 import os
 import pandas as pd
+import re
 import sys
 try:
     import configuration as c
@@ -82,6 +84,27 @@ def create_new_metadata(data_df):
     return df
 
 
+def save_csv(df, filename):
+    """
+    Adds empty columns to the dataframe to use for tracking the download process
+    and saves the dataframe to a CSV named Preservation_Download_YYYY-MM.
+    """
+    # Adds an empty column for the AIP_ID (calculated later) to the beginning of the dataframe
+    # and a number of empty columns for tracking to the end of the dataframe.
+    tracking_columns = ["Batch", "Script_Log", "Completeness_Log", "QC1", "Upload", "Ingest", "QC2", "Complete"]
+    df = df.reindex(columns=["AIP_ID"] + df.columns.tolist() + tracking_columns)
+
+    # Calculates the month of the preservation download to include in the report filename.
+    # It is one month later than the end date in the WARC metadata report.
+    regex = re.match(r'^warc_metadata_\d{4}-\d{2}-\d{2}_(\d{4}-\d{2}-\d{2}).csv', filename)
+    end_date_string = regex.group(1)
+    end_date = datetime.strptime(end_date_string, '%Y-%m-%d')
+    preservation_date = (end_date + timedelta(days=1)).strftime('%Y-%m')
+
+    # Saves the dataframe to a CSV in the script_output folder.
+    df.to_csv(os.path.join(c.script_output, f"Preservation_Download_{preservation_date}.csv"), index=False)
+
+
 def verify_metadata_path(argument_list):
     """
     Verifies the required argument (path to WARC metadata report) is present and correct.
@@ -121,6 +144,8 @@ if __name__ == '__main__':
     # Gets the seed metadata that requires combining WARC metadata.
     new_data_df = create_new_metadata(warc_df)
 
-    # Combines the new data with the seed data and saves it to a CSV.
+    # Combines the new data with the seed data.
     tracker_df = pd.merge(seed_df, new_data_df, left_on='Seed_ID', right_index=True)
-    tracker_df.to_csv(os.path.join(c.script_output, "tracker.csv"), index=False)
+
+    # Adds additional columns needed for tracking the download process and saves the dataframe to a CSV.
+    save_csv(tracker_df, os.path.basename(input_path))
