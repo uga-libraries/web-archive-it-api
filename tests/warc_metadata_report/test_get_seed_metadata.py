@@ -1,6 +1,6 @@
 """
 Tests for the get_seed_metadata() function from the warc_metadata_report.py script.
-It returns the title and collector (department) for a seed or default text if that information is missing.
+It returns the collector (department) and title for a seed or default text if that information is missing.
 """
 import unittest
 from warc_metadata_report import get_seed_metadata
