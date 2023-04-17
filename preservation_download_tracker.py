@@ -36,6 +36,27 @@ except ModuleNotFoundError:
 import shared_functions as fun
 
 
+def aggregate_ids(data_df, id_name):
+    """
+    Makes a series with an aggregated set of the specified ID for each Seed ID.
+    This is used with Crawl Job ID and Crawl Definition ID.
+    Returns the series.
+    """
+    # Makes a dataframe with unique seed and specified ID combinations.
+    # This has to be done first so only unique values are combined,
+    # and not repeats of the same ID from any seed with multiple WARCs but the same ID.
+    df = data_df[['Seed_ID', id_name]].copy()
+    df = df.drop_duplicates()
+
+    # Changes the specified ID to a string, so that it can be combined in the next step into one value.
+    df[id_name] = df[id_name].astype(str)
+
+    # Makes and returns a series with one row per Seed_ID and a value of the specified ids.
+    # If there is more than one ID, they are separated by semicolons.
+    aggregated = df.groupby('Seed_ID')[id_name].apply(';'.join)
+    return aggregated
+
+
 def verify_metadata_path(argument_list):
     """
     Verifies the required argument (path to WARC metadata report) is present and correct.
@@ -66,14 +87,28 @@ if __name__ == '__main__':
         sys.exit()
 
     # Reads the WARC metadata report into a pandas dataframe.
-    df = pd.read_csv(input_path)
+    warc_df = pd.read_csv(input_path)
 
-    # # Seed metadata that is consistent for every WARC in that seed.
-    seed_df = df[['AIP_Title', 'Department', 'AIT_Collection_ID', 'Seed_ID']].copy()
+    # Seed metadata that is consistent for every WARC in that seed.
+    seed_df = warc_df[['AIP_Title', 'Department', 'AIT_Collection_ID', 'Seed_ID']].copy()
     seed_df = seed_df.drop_duplicates()
 
+    # Crawl Job IDs combined for each Seed ID. There may be more than one Crawl Job ID.
+    crawl_jobs = aggregate_ids(warc_df, 'Crawl_Job_ID')
+
+    # Crawl Definition IDs combined for each Seed ID. There may be more than one Crawl Definition ID.
+    crawl_definitions = aggregate_ids(warc_df, 'Crawl_Definition_ID')
+
     # Subtotal with number of WARCs for each Seed ID.
-    warc_count = df.groupby(['Seed_ID'])['Seed_ID'].count()
+    warc_count = warc_df.groupby(['Seed_ID'])['Seed_ID'].count()
 
     # Subtotal with number of GB for each Seed ID.
-    warc_size_gb = df.groupby(['Seed_ID'])['Size_GB'].sum()
+    warc_size_gb = warc_df.groupby(['Seed_ID'])['Size_GB'].sum()
+
+    # Adds the aggregated IDs and subtotals into a single dataframe.
+    new_data_df = pd.concat([crawl_jobs, crawl_definitions, warc_count, warc_size_gb], axis=1)
+    new_data_df.columns = ["Crawl_Job_ID", "Crawl_Definition_ID", "WARC_Count", "WARC_Size_GB"]
+
+    # Combines the new data with the seed data and saves it to a CSV.
+    tracker_df = pd.merge(seed_df, new_data_df, left_on='Seed_ID', right_index=True)
+    tracker_df.to_csv(os.path.join(c.script_output, "tracker.csv"), index=False)
