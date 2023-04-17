@@ -1,6 +1,6 @@
 """
 Tests for the size_to_gb function from the warc_metadata_report.py script.
-It returns the size in GB, converted from the bytes that are in API Ddata.
+It returns the size in GB, converted from the bytes that are in API data.
 """
 import unittest
 from warc_metadata_report import size_to_gb
@@ -27,8 +27,7 @@ class MyTestCase(unittest.TestCase):
 
     def test_round_limit(self):
         """
-        Tests that the function returns the correct value if the size is the smallest that will round.
-        It will not require rounding.
+        Tests that the function returns the correct value if the size is the limit for rounding.
         """
         actual = size_to_gb("10000000")
         expected = 0.01
