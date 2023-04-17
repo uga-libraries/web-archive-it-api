@@ -21,7 +21,7 @@ class MyTestCase(unittest.TestCase):
     def test_all(self):
         """
         Tests the full script without the optional argument, which creates a report with all fields.
-        Result for testing is the spreadsheet created by the script.
+        Result for testing is the contents of the spreadsheet created by the script.
         """
         script_path = os.path.join("..", "..", "collection_metadata_report.py")
         subprocess.run(f"python {script_path}", shell=True)
@@ -142,7 +142,7 @@ class MyTestCase(unittest.TestCase):
     def test_required(self):
         """
         Tests the full script with the optional argument, which creates a report with required fields only.
-        Result for testing is the spreadsheet created by the script.
+        Result for testing is the contents of the spreadsheet created by the script.
         """
         script_path = os.path.join("..", "..", "collection_metadata_report.py")
         subprocess.run(f"python {script_path} required", shell=True)
