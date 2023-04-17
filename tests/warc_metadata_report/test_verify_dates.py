@@ -23,7 +23,7 @@ class MyTestCase(unittest.TestCase):
         """
         actual = verify_dates(["C:/path/warc_metadata_report.py", "2017-11-01", "2017-11-01"])
         expected = ("2017-11-01", "2017-11-01", ["The first argument must be an earlier date than the second."])
-        self.assertEqual(actual, expected, "Problem with test: first argument date is the same as the second.")
+        self.assertEqual(actual, expected, "Problem with test for error: first argument is the same as the second.")
 
     def test_error_first_date_later(self):
         """
@@ -31,7 +31,7 @@ class MyTestCase(unittest.TestCase):
         """
         actual = verify_dates(["C:/path/warc_metadata_report.py", "2017-11-01", "2016-04-01"])
         expected = ("2017-11-01", "2016-04-01", ["The first argument must be an earlier date than the second."])
-        self.assertEqual(actual, expected, "Problem with test for error: first date is later.")
+        self.assertEqual(actual, expected, "Problem with test for error: first argument is later than the second.")
 
     def test_error_format_first(self):
         """
@@ -39,7 +39,7 @@ class MyTestCase(unittest.TestCase):
         """
         actual = verify_dates(["C:/path/warc_metadata_report.py", "2017/11/01", "2018-01-01"])
         expected = (None, "2018-01-01", ["First argument '2017/11/01' is not formatted YYYY-MM-DD."])
-        self.assertEqual(actual, expected, "Problem with test for error: start date format.")
+        self.assertEqual(actual, expected, "Problem with test for error: first argument format.")
 
     def test_error_format_second(self):
         """
@@ -47,7 +47,7 @@ class MyTestCase(unittest.TestCase):
         """
         actual = verify_dates(["C:/path/warc_metadata_report.py", "2017-11-01", "2018-1-1"])
         expected = ("2017-11-01", None, ["Second argument '2018-1-1' is not formatted YYYY-MM-DD."])
-        self.assertEqual(actual, expected, "Problem with test for error: end date format.")
+        self.assertEqual(actual, expected, "Problem with test for error: second argument format.")
 
     def test_error_missing_both(self):
         """
@@ -63,7 +63,7 @@ class MyTestCase(unittest.TestCase):
         """
         actual = verify_dates(["C:/path/warc_metadata_report.py", "2017-11-01"])
         expected = ("2017-11-01", None, ["Second argument (end date) is missing."])
-        self.assertEqual(actual, expected, "Problem with test for error: missing second arguments")
+        self.assertEqual(actual, expected, "Problem with test for error: missing second argument")
 
 
 if __name__ == '__main__':
