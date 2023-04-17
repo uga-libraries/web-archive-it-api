@@ -45,11 +45,11 @@ class MyTestCase(unittest.TestCase):
                     'request-url': 'http://warcs.archive-it.org/wasapi/v1/webdata?store-time-after=2019-09-01&'
                                    'store-time-before=2019-09-15&page_size=500'}
 
-        self.assertEqual(actual, expected, "Problem with test for one warc.")
+        self.assertEqual(actual, expected, "Problem with test for one WARC.")
 
     def test_multiple_warc(self):
         """
-        Tests that the function returns the expected values for a date range with multiple days.
+        Tests that the function returns the expected values for a date range with multiple WARCs.
         """
         actual = get_warc_metadata("2021-03-15", "2021-03-19")
         expected = {'count': 5,
@@ -144,7 +144,7 @@ class MyTestCase(unittest.TestCase):
                     'request-url': 'http://warcs.archive-it.org/wasapi/v1/webdata?store-time-after=2021-03-15&'
                                    'store-time-before=2021-03-19&page_size=500'}
 
-        self.assertEqual(actual, expected, "Problem with test for multiple warcs.")
+        self.assertEqual(actual, expected, "Problem with test for multiple WARCs.")
 
     def test_on_start(self):
         """
@@ -276,7 +276,7 @@ class MyTestCase(unittest.TestCase):
                     'request-url': 'http://warcs.archive-it.org/wasapi/v1/webdata?store-time-after=2022-10-20&'
                                    'store-time-before=2022-10-26&page_size=500'}
 
-        self.assertEqual(actual, expected, "Problem with test for warcs on the end date.")
+        self.assertEqual(actual, expected, "Problem with test for WARCs on the end date.")
 
     def test_over_page_limit(self):
         """
