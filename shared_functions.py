@@ -52,7 +52,7 @@ def check_config():
     except AttributeError:
         errors.append("Variable 'password' is missing from the configuration file.")
 
-    # Checks that the credentials are correct by using them with an API call.
+    # Checks that the Archive-It username and password are correct by using them with an API call.
     # This only works if the partner_api variable is in the configuration file.
     try:
         response = requests.get(f'{c.partner_api}/seed?limit=5', auth=(c.username, c.password))
@@ -71,7 +71,7 @@ def check_config():
         sys.exit()
 
 
-def check_fields(args):
+def check_fields_to_include(args):
     """
     Checks if the report should include required fields only or all metadata fields,
     based on the optional argument.
@@ -85,6 +85,7 @@ def check_fields(args):
 def get_metadata_value(data, field):
     """
     Returns the value of a field in the Archive-It Partner API data, from within the metadata section.
+    If the field is present once, returns the value of that field.
     If the field is repeated, returns a string with all of the values separated by semicolons.
     If the field is not in the data, returns the string "NO DATA OF THIS TYPE".
     """
