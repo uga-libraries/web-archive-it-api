@@ -2,6 +2,7 @@
 Purpose: Generate a report of seed metadata fields from Archive-It.
 The report is saved to the script_output folder, which is defined in configuration.py
 The report can include just required fields (from the UGA Metadata Profile) or all fields.
+
 The primary uses are to verify metadata is complete prior to a preservation download and
 to review and batch edit the metadata.
 
@@ -35,8 +36,7 @@ import shared_functions as fun
 
 def get_metadata():
     """
-    Uses the Archive-It Partner API to get the metadata for all of the seeds
-    and returns the json as a Python object.
+    Gets the metadata for all seeds from the Archive-It Partner API and returns the metadata, which is json.
     If there was an error with the API call, quits the script.
     """
     seeds_metadata = requests.get(f'{c.partner_api}/seed?limit=-1', auth=(c.username, c.password))
@@ -49,7 +49,7 @@ def get_metadata():
 
 def get_header(optional):
     """
-    Returns a list with the columns for the CSV,
+    Returns a list with the column names for the CSV,
     which are different depending on if required fields or all fields will be included.
     """
     required_header = ["ID", "Name", "Collector", "Creator", "Date", "Identifier", "Language", "Rights", "Title",
@@ -68,29 +68,31 @@ def get_header(optional):
 def make_metadata_list(seed_data, header_list):
     """
     Makes and returns a list of metadata values for a particular seed.
-    Most can be looked up from the collection's data using the field name in the header,
-    with the qualifier "[required]" removed when all fields are part of the report.
-    The URL for the last field, Archive-It Metadata Page, is constructed by the script.
     """
+    # The first 2 values are in the seed metadata but not the metadata section.
+    # They are always present and do not repeat.
     metadata_list = [seed_data['id'], seed_data['url']]
 
-    # The function is for values within the metadata section.
-    # It works for everything except the first 2 values and the last value.
+    # The function is for values within the metadata section, which is most of the columns.
+    # Some values are not always present and some repeat, and it handles all those cases.
+    # The name of the fields in the metadata are the same as the column header, without [required].
     header_list = [field.replace(" [required]", "") for field in header_list]
     for field_name in header_list[2:-1]:
         metadata_list.append(fun.get_metadata_value(seed_data, field_name))
 
+    # Constructs the link to the metadata page for this seed to make it easier to edit if an error is found.
     metadata_list.append(f"{c.inst_page}/collections/{seed_data['collection']}/seeds/{seed_data['id']}/metadata")
 
     return metadata_list
 
 
 if __name__ == '__main__':
+
     # Verifies the configuration file has the correct values.
     fun.check_config()
 
     # Boolean for if optional fields should be included, based on the script argument.
-    include_optional = fun.check_fields(sys.argv)
+    include_optional = fun.check_fields_to_include(sys.argv)
 
     # Gets the seeds' metadata from the Archive-It Partner API.
     seeds = get_metadata()
