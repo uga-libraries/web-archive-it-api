@@ -21,7 +21,7 @@ class MyTestCase(unittest.TestCase):
         Tests that the function returns the expected text when the WARC file name is not formatted correctly.
         """
         actual = calculate_seed_id("ARCHIVEIT-12912-NEW-FORMAT-ID2184360-20210318220950737-0004-h3.warc.gz")
-        expected = "COULD NOT CALCULATE"
+        expected = "COULD NOT CALCULATE SEED ID"
         self.assertEqual(actual, expected, "Problem with test: error.")
 
 
