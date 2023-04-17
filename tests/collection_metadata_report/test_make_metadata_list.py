@@ -1,6 +1,6 @@
 """
 Tests for the make_metadata_list() function from the collection_metadata_report.py script.
-It converts the metadata for a single collection into a list, to use for saving to the CSV..
+It converts the metadata for a single collection into a list, to use for saving to the CSV.
 """
 import unittest
 from collection_metadata_report import make_metadata_list
@@ -12,7 +12,7 @@ class MyTestCase(unittest.TestCase):
     def test_all_optional_missing(self):
         """
         Tests that the function returns the expected list of metadata values
-        when all fields are included and all optional fields are missing.
+        when all fields are to be included and all optional fields are missing.
         """
 
         test_data = {'account': 1468, 'created_by': 'system', 'created_date': '2018-09-19T22:45:21Z',
@@ -40,7 +40,7 @@ class MyTestCase(unittest.TestCase):
     def test_all_once(self):
         """
         Tests that the function returns the expected list of metadata values
-        when all fields are included and all fields occur once.
+        when all fields are to be included and all fields occur once.
         """
 
         test_data = {'account': 1468, 'created_by': 'system', 'created_date': '2018-09-19T22:45:21Z',
@@ -73,7 +73,7 @@ class MyTestCase(unittest.TestCase):
     def test_all_twice(self):
         """
         Tests that the function returns the expected list of metadata values
-        when all fields are included and all repeatable fields occur twice.
+        when all fields are to be included and all repeatable fields occur twice.
         """
 
         test_data = {'account': 1468, 'created_by': 'system', 'created_date': '2018-09-19T22:45:21Z',
@@ -112,7 +112,8 @@ class MyTestCase(unittest.TestCase):
     def test_required(self):
         """
         Tests that the function returns the expected list of metadata values
-        when only required fields are included one time.
+        when only required fields are included, and all are present one time.
+        None of the required collection fields can repeat.
         """
 
         test_data = {'account': 1468, 'created_by': 'sarmour', 'created_date': '2019-10-08T14:08:42.636015Z',
