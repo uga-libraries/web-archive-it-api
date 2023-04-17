@@ -2,22 +2,25 @@
 Purpose: Generate a report of WARC metadata from Archive-It.
 The report is saved to the script_output folder, which is defined in configuration.py
 
+The primary use is to generate a list of all WARCs expected in the quarterly preservation download.
+This script is used instead of the "download as a CSV" option from WASAPI in a web browser
+to be able to reformat data and add data from the Partner API about the seed.
+
 The report includes the following fields:
+    * Seed Title
+    * Department (collector)
     * WARC Filename
     * AIT Collection ID
     * Seed ID
     * Crawl Job ID
-    * Date (store-time)
-    * Size (GB)
     * Crawl Definition ID
-    * Seed Title
-    * WARC MD5
-
-Use this script instead of the WASAPI CSV download option in the web browser
-so data can be manipulated, added from the Partner API, and reformatted.
-
-UGA uses this script to generate a list of all WARCs expected in the quarterly preservation download
-and adds them to a WARC Inventory for all downloaded WARCs to track that nothing is missed.
+    * Date (store-time)
+    * Date (crawl start)
+    * Date (crawl end)
+    * Size (GB)
+    * File Type
+    * WARC MD5 Checksum
+    * WARC SHA1 Checksum
 
 Script usage: python warc_metadata_report.py start_date end_date
 WARCs stored on the start_date will be included in the report.
@@ -40,20 +43,20 @@ import shared_functions as fun
 def calculate_seed_id(warc_name):
     """
     Uses a regular expression to identify the Seed Id component of the WARC filename.
-    Returns the Seed ID.
+    Returns the Seed ID or default text if the pattern does not match.
     """
     try:
         regex = re.match(r'^.*?SEED(\d+)-', warc_name)
         id = regex.group(1)
     except AttributeError:
-        id = "COULD NOT CALCULATE"
+        id = "COULD NOT CALCULATE SEED ID"
     return id
 
 
 def get_crawl_definition(job):
     """
-    Uses the Partner API to get the report for this job, which includes the crawl definition.
-    Returns the crawl definition id or an error message to put in the CSV in its place.
+    Uses the Partner API to get the report for this crawl job, which includes the crawl definition.
+    Returns the crawl definition id or default text if no id is found.
     """
 
     # Gets the crawl job report using the Partner API.
@@ -72,8 +75,8 @@ def get_crawl_definition(job):
 
 def get_seed_metadata(seed):
     """
-    Uses the Partner API to get the seed report for this seed, which includes the seed title.
-    Returns the title or an error message to put in the CSV in place of the title.
+    Uses the Partner API to get the seed report for this seed, which includes the collector and title.
+    Returns the collector and title or default text if either are not found.
     """
 
     # Gets the seed report using the Partner API.
@@ -161,7 +164,7 @@ def verify_dates(argument_list):
 
     # If start and end dates were correctly formatted, and so assigned to the variables,
     # checks if the start date is later than or the same as the end date, which is an error.
-    # Converts start and end from strings to dates for more accurate comparison.
+    # Converts start and end from strings to dates for a more accurate comparison.
     if start and end:
         start_as_date = datetime.strptime(start, '%Y-%m-%d')
         end_as_date = datetime.strptime(end, '%Y-%m-%d')
@@ -194,15 +197,15 @@ if __name__ == '__main__':
         sys.exit()
 
     # Makes a CSV for the warc metadata report with a header row.
-    # The date range is the dates WARCs could have been stored,
+    # The date range in the file name is the dates WARCs could have been stored,
     # which is one day sooner than the end_date due to how the API works.
     warc_last_date = (datetime.strptime(end_date, '%Y-%m-%d') - timedelta(days=1)).strftime('%Y-%m-%d')
     report_path = f"{c.script_output}/warc_metadata_{start_date}_{warc_last_date}.csv"
     fun.save_csv_row(report_path, ["AIP_Title", "Department", "WARC_Filename", "AIT_Collection_ID", "Seed_ID",
-                                   "Job_ID", "Crawl_Definition_ID", "Date_Store-Time", "Date_Crawl-Start",
+                                   "Crawl_Job_ID", "Crawl_Definition_ID", "Date_Store-Time", "Date_Crawl-Start",
                                    "Date_Crawl-End", "Size_GB", "File_Type", "MD5_Checksum", "SHA1_Checksum"])
 
-    # Saves the metadata for each warc to the warc metadata report.
+    # Saves the metadata for each WARC to the WARC metadata report.
     for warc in metadata['files']:
         seed_id = calculate_seed_id(warc['filename'])
         seed_collector, seed_title = get_seed_metadata(seed_id)
