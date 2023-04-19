@@ -40,6 +40,30 @@ NOTE: this is a legacy script which will be deleted once the ability to limit to
 to the collection and seed metadata reports.
 It has not been updated to use the shared functions and does not have unit tests.
 
+## preservation_download_tracker.py
+Makes a CSV from the WARC metadata report with seed (AIP) level information 
+for tracking UGA quarterly preservation downloads.
+   * AIP_ID: blank column, data added manually
+   * AIP_Title
+   * AIT_Collection_ID
+   * Seed_ID
+   * Crawl_Job_IDs: separated with semicolon if more than one
+   * Crawl_Definition_IDs: separated with semicolon if more than one
+   * WARC_Count: number of WARCs for the seed
+   * WARC_Size_GB: number of GB for all WARCs for the seed
+   * Batch: blank column for tracking progress
+   * Script_Log: blank column for tracking progress
+   * Completeness_Log: blank column for tracking progress
+   * QC1: blank column for tracking progress
+   * Upload: blank column for tracking progress
+   * Ingest: blank column for tracking progress
+   * QC2: blank column for tracking progress
+   * Complete: blank column for tracking progress
+
+Script usage: `python preservation_download_tracker.py warc_metadata_path`
+
+warc_metadata_path is the location of the WARC metadata report, created using warc_metadata_report.py
+
 ## seed_metadata_report.py
 Makes a CSV with all seed metadata in Archive-It.
    * Collector - required
