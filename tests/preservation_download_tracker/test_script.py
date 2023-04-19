@@ -45,12 +45,21 @@ class MyTestCase(unittest.TestCase):
         expected = [["AIP_ID", "AIP_Title", "Department", "AIT_Collection_ID", "Seed_ID", "Crawl_Job_ID",
                      "Crawl_Definition_ID", "WARC_Count", "WARC_Size_GB", "Batch", "Script_Log", "Completeness_Log",
                      "QC1", "Upload", "Ingest", "QC2", "Complete"],
-                    ["", "Statewide Independent Living Council of Georgia", "Richard B. Russell Library for Political Research and Studies", "12264", "2070895", "1033772", "31104276639", "3", "3.64", "", "", "", "", "", "", "", ""],
-                    ["", "K7MOA Legacy Voteview Website", "Richard B. Russell Library for Political Research and Studies", "12262", "2018084", "1033408", "31104276333", "1", "0.67", "", "", "", "", "", "", "", ""],
-                    ["", "Rotary Club of Athens", "Richard B. Russell Library for Political Research and Studies", "12939", "2089429", "1025299", "31104271006", "1", "0.01", "", "", "", "", "", "", "", ""],
-                    ["", "Latest Trends - A Georgia Trend Blog", "Richard B. Russell Library for Political Research and Studies", "12939", "2091989", "1025266", "31104270979", "9", "7.49", "", "", "", "", "", "", "", ""],
-                    ["", "ACLU of Georgia", "Richard B. Russell Library for Political Research and Studies", "12944", "2090408", "1010676", "31104269622", "1", "0.52", "", "", "", "", "", "", "", ""],
-                    ["", "No title in Archive-It", "No collector in Archive-It", "12944", "2090409", "1010676", "31104269622", "1", "0.006379682", "", "", "", "", "", "", "", ""]]
+                    ["", "Statewide Independent Living Council of Georgia",
+                     "Richard B. Russell Library for Political Research and Studies", "12264", "2070895",
+                     "1033772", "31104276639", "3", "3.64", "", "", "", "", "", "", "", ""],
+                    ["", "K7MOA Legacy Voteview Website",
+                     "Richard B. Russell Library for Political Research and Studies", "12262", "2018084",
+                     "1033408", "31104276333", "1", "0.67", "", "", "", "", "", "", "", ""],
+                    ["", "Rotary Club of Athens", "Richard B. Russell Library for Political Research and Studies",
+                     "12939", "2089429", "1025299", "31104271006", "1", "0.01", "", "", "", "", "", "", "", ""],
+                    ["", "Latest Trends - A Georgia Trend Blog",
+                     "Richard B. Russell Library for Political Research and Studies", "12939", "2091989",
+                     "1025266", "31104270979", "9", "7.49", "", "", "", "", "", "", "", ""],
+                    ["", "ACLU of Georgia", "Richard B. Russell Library for Political Research and Studies",
+                     "12944", "2090408", "1010676", "31104269622", "1", "0.52", "", "", "", "", "", "", "", ""],
+                    ["", "No title in Archive-It", "No collector in Archive-It", "12944", "2090409", "1010676",
+                     "31104269622", "1", "0.006", "", "", "", "", "", "", "", ""]]
 
         self.assertEqual(actual, expected, "Problem with test one.")
 
@@ -78,8 +87,11 @@ class MyTestCase(unittest.TestCase):
         expected = [["AIP_ID", "AIP_Title", "Department", "AIT_Collection_ID", "Seed_ID", "Crawl_Job_ID",
                      "Crawl_Definition_ID", "WARC_Count", "WARC_Size_GB", "Batch", "Script_Log", "Completeness_Log",
                      "QC1", "Upload", "Ingest", "QC2", "Complete"],
-                    ["", "UGA Today", "Hargrett Rare Book & Manuscript Library", "12912", "2184360", "1130531;1130526", "31104307871;31104312482", "31", "32.878337596", "", "", "", "", "", "", "", ""],
-                    ["", "Coronavirus (COVID-19) Information and Resources website", "Hargrett Rare Book & Manuscript Library", "12912", "2173769", "1130525;1130530", "31104312481;31104307305", "2", "0.004255981000000001", "", "", "", "", "", "", "", ""]]
+                    ["", "UGA Today", "Hargrett Rare Book & Manuscript Library", "12912", "2184360",
+                     "1130531;1130526", "31104307871;31104312482", "31", "32.878", "", "", "", "", "", "", "", ""],
+                    ["", "Coronavirus (COVID-19) Information and Resources website",
+                     "Hargrett Rare Book & Manuscript Library", "12912", "2173769", "1130525;1130530",
+                     "31104312481;31104307305", "2", "0.004", "", "", "", "", "", "", "", ""]]
         self.assertEqual(actual, expected, "Problem with test two.")
 
     def test_three(self):

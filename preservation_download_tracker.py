@@ -75,7 +75,7 @@ def create_new_metadata(data_df):
     warc_count = data_df.groupby(['Seed_ID'])['Seed_ID'].count()
 
     # Subtotal with number of GB for each seed.
-    warc_size_gb = data_df.groupby(['Seed_ID'])['Size_GB'].sum()
+    warc_size_gb = data_df.groupby(['Seed_ID'])['Size_GB'].sum().round(3)
 
     # Combines the four metadata types into a dataframe and returns the dataframe.
     # The index is the Seed_ID.
