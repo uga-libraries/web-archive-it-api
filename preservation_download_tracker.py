@@ -91,7 +91,7 @@ def save_csv(df, filename):
     """
     # Adds an empty column for the AIP_ID (calculated later) to the beginning of the dataframe
     # and a number of empty columns for tracking to the end of the dataframe.
-    tracking_columns = ["Batch", "Script_Log", "Completeness_Log", "QC1", "Upload", "Ingest", "QC2", "Complete"]
+    tracking_columns = ["Log: coll_scope", "Log:seed_scope", "Log: Other Reports", "WARC Download", "Completeness Log", "AIP Log", "QC1", "Upload", "Ingest", "QC2", "Complete"]
     df = df.reindex(columns=["AIP_ID"] + df.columns.tolist() + tracking_columns)
 
     # Calculates the month of the preservation download to include in the report filename.
