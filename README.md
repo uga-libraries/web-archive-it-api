@@ -28,18 +28,6 @@ Script usage: `python collection_metadata_report.py [required]`
 
 Include "required" to limit the report to required fields. Otherwise, all fields are included.
 
-## metadata_check_department.py
-Makes CSVs of each department's (collector's) collection and seed metadata.
-These reports just include the fields required by UGA>
-
-Script usage: `python metadata_check_department.py [output_directory]`
-
-If the path for the output directory is not provided, it uses the script output path from the configuration file.
-
-NOTE: this is a legacy script which will be deleted once the ability to limit to a single department is added
-to the collection and seed metadata reports.
-It has not been updated to use the shared functions and does not have unit tests.
-
 ## preservation_download_tracker.py
 Makes a CSV from the WARC metadata report with seed (AIP) level information 
 for tracking UGA quarterly preservation downloads.
