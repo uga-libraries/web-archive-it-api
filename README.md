@@ -97,7 +97,6 @@ WARCs stored on the end_date will NOT be included.
 ## Dependencies
 
 * Archive-It login credentials
-* Python requests libraries: `pip install requests`
 
 ## Installation
 
