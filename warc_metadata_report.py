@@ -4,23 +4,23 @@ The report is saved to the script_output folder, which is defined in configurati
 
 The primary use is to generate a list of all WARCs expected in the quarterly preservation download.
 This script is used instead of the "download as a CSV" option from WASAPI in a web browser
-to be able to reformat data and add data from the Partner API about the seed.
+to be able to reformat data and to add data from the Partner API about the seed.
 
 The report includes the following fields:
-    * Seed Title
+    * AIP_Title
     * Department (collector)
-    * WARC Filename
-    * AIT Collection ID
-    * Seed ID
-    * Crawl Job ID
-    * Crawl Definition ID
-    * Date (store-time)
-    * Date (crawl start)
-    * Date (crawl end)
-    * Size (GB)
-    * File Type
-    * WARC MD5 Checksum
-    * WARC SHA1 Checksum
+    * WARC_Filename
+    * AIT_Collection_ID
+    * Seed_ID
+    * Crawl_Job_ID
+    * Crawl_Definition_ID
+    * Date_Store-Time
+    * Date_Crawl-Start
+    * Date_Crawl-End
+    * Size_GB
+    * File_Type
+    * MD5_Checksum
+    * SHA1_Checksum
 
 Script usage: python warc_metadata_report.py start_date end_date
 WARCs stored on the start_date will be included in the report.
@@ -47,10 +47,10 @@ def calculate_seed_id(warc_name):
     """
     try:
         regex = re.match(r'^.*?SEED(\d+)-', warc_name)
-        id = regex.group(1)
+        seed_id = regex.group(1)
     except AttributeError:
-        id = "COULD NOT CALCULATE SEED ID"
-    return id
+        seed_id = "COULD NOT CALCULATE SEED ID"
+    return seed_id
 
 
 def get_crawl_definition(job):

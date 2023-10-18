@@ -6,20 +6,24 @@ The report uses the WARC metadata report (created with warc_metadata_report.py) 
 The report includes the following fields for all included seeds:
    * AIP_ID [blank column, data added manually]
    * AIP_Title
+   * Department
    * AIT_Collection_ID
    * Seed_ID
-   * Crawl_Job_IDs: separated with semicolon if more than one
-   * Crawl_Definition_IDs: separated with semicolon if more than one
+   * Crawl_Job_ID: separated with semicolon if more than one
+   * Crawl_Definition_ID: separated with semicolon if more than one
    * WARC_Count: number of WARCs for the seed
    * WARC_Size_GB: number of GB for all WARCs for the seed
-   * Batch [blank column for tracking progress]
-   * Script_Log [blank column for tracking progress]
-   * Completeness_Log [blank column for tracking progress]
-   * QC1 [blank column for tracking progress]
-   * Upload [blank column for tracking progress]
-   * Ingest [blank column for tracking progress]
-   * QC2 [blank column for tracking progress]
-   * Complete [blank column for tracking progress]
+   * Log_coll_scope [blank column for tracking workflow progress]
+   * Log_seed_scope [blank column for tracking workflow progress]
+   * Log_Other_Reports [blank column for tracking workflow progress]
+   * WARC_Download [blank column for tracking workflow progress]
+   * Completeness_Log [blank column for tracking workflow progress]
+   * AIP_Log [blank column for tracking workflow progress]
+   * QC1 [blank column for tracking workflow progress]
+   * Upload [blank column for tracking workflow progress]
+   * Ingest [blank column for tracking workflow progress]
+   * QC2 [blank column for tracking workflow progress]
+   * Complete [blank column for tracking workflow progress]
 
 Script usage: python preservation_download_tracker.py warc_metadata_path
 warc_metadata_path is the location of the WARC metadata report, created using warc_metadata_report.py
@@ -91,7 +95,8 @@ def save_csv(df, filename):
     """
     # Adds an empty column for the AIP_ID (calculated later) to the beginning of the dataframe
     # and a number of empty columns for tracking to the end of the dataframe.
-    tracking_columns = ["Log: coll_scope", "Log:seed_scope", "Log: Other Reports", "WARC Download", "Completeness Log", "AIP Log", "QC1", "Upload", "Ingest", "QC2", "Complete"]
+    tracking_columns = ["Log_coll_scope", "Log_seed_scope", "Log_Other_Reports", "WARC_Download", "Completeness_Log",
+                        "AIP_Log", "QC1", "Upload", "Ingest", "QC2", "Complete"]
     df = df.reindex(columns=["AIP_ID"] + df.columns.tolist() + tracking_columns)
 
     # Calculates the month of the preservation download to include in the report filename.

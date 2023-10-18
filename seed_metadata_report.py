@@ -6,7 +6,7 @@ The report can include just required fields (from the UGA Metadata Profile) or a
 The primary uses are to verify metadata is complete prior to a preservation download and
 to review and batch edit the metadata.
 
-The report includes the following fields for all seeds:
+The report includes the following metadata fields for all seeds:
     * Collector - required
     * Creator - required
     * Date - required
@@ -18,9 +18,11 @@ The report includes the following fields for all seeds:
     * Subject
     * Title - required
 
+It also includes the Archive-It ID number, name, and URL to the seed's Archive-It metadata page.
+
 Script usage: python seed_metadata_report.py [required]
 Include "required" as an optional argument to only include the required fields.
-If there is no argument or it is some other text besides required, the report will have all fields.
+If there is no argument, or it is some other text besides required, the report will have all fields.
 """
 from datetime import datetime
 import requests
