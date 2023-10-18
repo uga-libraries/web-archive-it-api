@@ -10,17 +10,8 @@ to review and update metadata.
 
 ## collection_metadata_report.py
 
-Makes a CSV with all collection metadata or just required collection metadata:
-   * Collector - required
-   * Creator
-   * Date - required
-   * Description - required
-   * Identifier
-   * Language
-   * Relation
-   * Rights
-   * Subject
-   * Title - required
+Makes a CSV with all collection metadata or just required collection metadata. 
+Example: [collection_metadata_2023-10-18.csv](documentation/collection_metadata_2023-10-18.csv) 
 
 Script usage: `python collection_metadata_report.py [required]`
 
@@ -30,22 +21,7 @@ Include "required" to limit the report to required fields. Otherwise, all fields
 
 Makes a CSV from the WARC metadata report with seed (AIP) level information 
 for tracking UGA quarterly preservation downloads.
-   * AIP_ID: blank column, data added manually
-   * AIP_Title
-   * AIT_Collection_ID
-   * Seed_ID
-   * Crawl_Job_IDs: separated with semicolon if more than one
-   * Crawl_Definition_IDs: separated with semicolon if more than one
-   * WARC_Count: number of WARCs for the seed
-   * WARC_Size_GB: number of GB for all WARCs for the seed
-   * Batch: blank column for tracking progress
-   * Script_Log: blank column for tracking progress
-   * Completeness_Log: blank column for tracking progress
-   * QC1: blank column for tracking progress
-   * Upload: blank column for tracking progress
-   * Ingest: blank column for tracking progress
-   * QC2: blank column for tracking progress
-   * Complete: blank column for tracking progress
+Example: [Preservation_Download_2022-05.csv](documentation/Preservation_Download_2022-05.csv)
 
 Script usage: `python preservation_download_tracker.py warc_metadata_path`
 
@@ -53,17 +29,8 @@ warc_metadata_path is the location of the WARC metadata report, created using wa
 
 ## seed_metadata_report.py
 
-Makes a CSV with all seed metadata or just required seed metadata:
-   * Collector - required
-   * Creator - required
-   * Date - required
-   * Description
-   * Identifier - required
-   * Language - required
-   * Relation
-   * Rights - required
-   * Subject
-   * Title - required
+Makes a CSV with all seed metadata or just required seed metadata.
+Example: [seed_metadata_2023-10-18.csv](documentation/seed_metadata_2023-10-18.csv)
 
 Script usage: `python seed_metadata_report.py [required]`
 
@@ -71,26 +38,14 @@ Include "required" to limit the report to required fields. Otherwise, all fields
 
 ## warc_csv.py
 
-Makes a CSV with WARC metadata for all WARCs stored during the specified time frame:
-   * Seed Title
-   * Department (collector)
-   * WARC Filename
-   * AIT Collection ID
-   * Seed ID
-   * Crawl Job ID
-   * Crawl Definition ID
-   * Date (store-time)
-   * Date (crawl start)
-   * Date (crawl end)
-   * Size (GB)
-   * File Type
-   * WARC MD5 Checksum
-   * WARC SHA1 Checksum
+Makes a CSV with WARC metadata for all WARCs stored during the specified time frame.
+WARCs stored on the start_date will be included. 
+WARCs stored on the end_date will NOT be included.
+Example: [warc_metadata_2022-02-01_2022-04-30.csv](documentation/warc_metadata_2022-02-01_2022-04-30.csv)
 
 Script usage: `python warc_csv.py start_date end_date`
 
-WARCs stored on the start_date will be included. 
-WARCs stored on the end_date will NOT be included.
+
 
 # Getting Started
 
