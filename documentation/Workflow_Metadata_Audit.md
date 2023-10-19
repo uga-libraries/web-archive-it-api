@@ -4,6 +4,7 @@
 
 Collection and seed metadata in Archive-It must follow the [UGA Web Archives Metadata Profile](https://github.com/uga-libraries/web-archiving/blob/main/metadata_profile.md). 
 Reports used to prepare for preservation downloads can also be used to view and batch edit collection or seed metadata.
+This is an intended use of the reports but has not yet been implemented in practice.
 
 ## Workflow
 
