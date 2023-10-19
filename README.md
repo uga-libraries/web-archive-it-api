@@ -67,18 +67,21 @@ The reports may also be created and used individually.
 ## Preservation Download
 [Preservation Download Workflow Documentation](documentation/Workflow_Preservation_Download.md)
 
-1. A few weeks prior to the planned download, run collection_metadata_report.py and seed_metadata_report.py.
-2. Review the collection and seed reports for missing metadata, and update in Archive-It prior to the download.
-3. Run warc_metadata_report.py and copy the information into the WARC Inventory on Teams.
-4. Run preservation_download_tracker.py to make the spreadsheet for tracking the download process.
-5. Download the WARCs and associated metadata using [https://github.com/uga-libraries/web-aip](https://github.com/uga-libraries/web-aip)
-6. Convert the downloaded content into AIPs using [https://github.com/uga-libraries/general-aip](https://github.com/uga-libraries/general-aip)
-7. Ingest the AIPs into ARCHive, the Libraries digital preservation system
+1. Two weeks before the download, create collection, seed, and WARC metadata reports.
+2. Review the collection and seed metadata reports for missing metadata.
+3. Review the WARC metadata report for unusual activity.
+4. Email the collecting units to make corrections.
+5. Verify the missing metadata has been added.
+6. On the day of the download, create an updated WARC metadata report if any crawls were saved since it was last generated.
+7. Make the preservation download tracker spreadsheet for tracking the workflow progress.
+8. Download the WARCs and associated metadata using the [web aip script](https://github.com/uga-libraries/web-aip).
+9. Convert the downloaded content into AIPs using the [general aip script](https://github.com/uga-libraries/general-aip).
+10. Ingest the AIPs into ARCHive, the Libraries' digital preservation system.
 
 ## Metadata Audit
 [Metadata Audit Workflow Documentation](documentation/Workflow_Metadata_Audit.md)
 
-1. Use the scripts to create a collection and/or seed report.
+1. Use these scripts to create a collection and/or seed report.
 2. Compare the reports to the [UGA Web Archives Metadata Profile](https://github.com/uga-libraries/web-archiving/blob/main/metadata_profile.md).
 3. Edit the report(s).
 4. Upload the report(s) to Archive-It.
