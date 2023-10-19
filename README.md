@@ -71,6 +71,13 @@ although they may also be used individually.
 6. Convert the downloaded content into AIPs using [https://github.com/uga-libraries/general-aip](https://github.com/uga-libraries/general-aip)
 7. Ingest the AIPs into ARCHive, the Libraries digital preservation system
 
+These scripts may also be used for reviewing and updating metadata in Archive-It. [Metadata Audit Workflow](documentation/Workflow_Metadata_Audit.md)
+
+1. Use the scripts to create a collection and/or seed report.
+2. Compare the reports to the [UGA Web Archives Metadata Profile](https://github.com/uga-libraries/web-archiving/blob/main/metadata_profile.md).
+3. Edit the report(s).
+4. Upload the report(s) to Archive-It.
+
 # Author
 
 Adriane Hanson, Head of Digital Stewardship, University of Georgia
