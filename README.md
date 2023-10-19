@@ -60,8 +60,12 @@ and save it to your local copy of this repository.
 
 # Workflow
 
-These scripts are typically used in the following sequence to prepare for quarterly downloads from Archive-It for preservation,
-although they may also be used individually.
+These scripts are primarily used for two different workflows, the quarterly download of content from Archive-It for preservation
+and auditing metadata to ensure it meets the UGA Libraries' standards. 
+The reports may also be created and used individually. 
+
+## Preservation Download
+[Preservation Download Workflow Documentation](documentation/Workflow_Preservation_Download.md)
 
 1. A few weeks prior to the planned download, run collection_metadata_report.py and seed_metadata_report.py.
 2. Review the collection and seed reports for missing metadata, and update in Archive-It prior to the download.
@@ -71,7 +75,8 @@ although they may also be used individually.
 6. Convert the downloaded content into AIPs using [https://github.com/uga-libraries/general-aip](https://github.com/uga-libraries/general-aip)
 7. Ingest the AIPs into ARCHive, the Libraries digital preservation system
 
-These scripts may also be used for reviewing and updating metadata in Archive-It. [Metadata Audit Workflow](documentation/Workflow_Metadata_Audit.md)
+## Metadata Audit
+[Metadata Audit Workflow Documentation](documentation/Workflow_Metadata_Audit.md)
 
 1. Use the scripts to create a collection and/or seed report.
 2. Compare the reports to the [UGA Web Archives Metadata Profile](https://github.com/uga-libraries/web-archiving/blob/main/metadata_profile.md).
