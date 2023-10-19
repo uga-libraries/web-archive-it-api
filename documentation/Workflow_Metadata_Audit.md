@@ -3,7 +3,7 @@
 ## Overview
 
 Collection and seed metadata in Archive-It must follow the [UGA Web Archives Metadata Profile](https://github.com/uga-libraries/web-archiving/blob/main/metadata_profile.md). 
-Reports used to prepare for preservation downloads can also be used to view and batch edit collection or seed metadata. 
+Reports used to prepare for preservation downloads can also be used to view and batch edit collection or seed metadata.
 
 ## Workflow
 
@@ -27,4 +27,4 @@ Involve the collecting unit if there is any uncertainty about what the correct i
 
 
 4. Update the metadata in Archive-It, which can be done via the interface or by uploading a CSV:
-   [Add-edit-and-manage-your-metadata](https://support.archive-it.org/hc/en-us/articles/208332603-Add-edit-and-manage-your-metadata). 
+   [Add-edit-and-manage-your-metadata](https://support.archive-it.org/hc/en-us/articles/208332603-Add-edit-and-manage-your-metadata).
