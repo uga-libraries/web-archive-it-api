@@ -37,9 +37,10 @@ import shared_functions as fun
 
 
 def get_metadata():
-    """
-    Gets the metadata for all seeds from the Archive-It Partner API and returns the metadata, which is json.
-    If there was an error with the API call, quits the script.
+    """Get seed metadata from the Archive-It Partner API or quit the script if there is an error.
+
+    Returns:
+        Seed metadata (json)
     """
     seeds_metadata = requests.get(f'{c.partner_api}/seed?limit=-1', auth=(c.username, c.password))
     if not seeds_metadata.status_code == 200:
@@ -50,9 +51,13 @@ def get_metadata():
 
 
 def get_header(optional):
-    """
-    Returns a list with the column names for the CSV,
-    which are different depending on if required fields or all fields will be included.
+    """Gets the column names for the CSV, which depends on which fields will be included.
+
+    Parameter:
+        optional : If all fields will be included (Boolean)
+
+    Returns:
+         A list with the column names
     """
     required_header = ["ID", "Name", "Collector", "Creator", "Date", "Identifier", "Language", "Rights", "Title",
                        "Archive-It Metadata Page"]
@@ -68,8 +73,14 @@ def get_header(optional):
 
 
 def make_metadata_list(seed_data, header_list):
-    """
-    Makes and returns a list of metadata values for a particular seed.
+    """Make a list of metadata values for a particular seed.
+
+    Parameters:
+        seed_data : API data for the seed
+        header_list : list of CSV column names, which are the metadata fields that should be included
+
+    Returns:
+        A list of values from each metadata field in the CSV.
     """
     # The first 2 values are in the seed metadata but not the metadata section.
     # They are always present and do not repeat.
