@@ -1,28 +1,21 @@
-"""
-Purpose: generate a report of seeds to be included in a preservation download.
-The report includes metadata about the seeds and columns for tracking the progress.
-The report uses the WARC metadata report (created with warc_metadata_report.py) as input.
+"""Generate a report of seeds to be included in a preservation download.
 
-The report includes the following fields for all included seeds:
+The report includes the following fields for all included seeds, plus tracking columns:
    * AIP_ID [blank column, data added manually]
    * AIP_Title
+   * Department
    * AIT_Collection_ID
    * Seed_ID
-   * Crawl_Job_IDs: separated with semicolon if more than one
-   * Crawl_Definition_IDs: separated with semicolon if more than one
+   * Crawl_Job_ID: separated with semicolon if more than one
+   * Crawl_Definition_ID: separated with semicolon if more than one
    * WARC_Count: number of WARCs for the seed
    * WARC_Size_GB: number of GB for all WARCs for the seed
-   * Batch [blank column for tracking progress]
-   * Script_Log [blank column for tracking progress]
-   * Completeness_Log [blank column for tracking progress]
-   * QC1 [blank column for tracking progress]
-   * Upload [blank column for tracking progress]
-   * Ingest [blank column for tracking progress]
-   * QC2 [blank column for tracking progress]
-   * Complete [blank column for tracking progress]
 
-Script usage: python preservation_download_tracker.py warc_metadata_path
-warc_metadata_path is the location of the WARC metadata report, created using warc_metadata_report.py
+Parameter:
+    warc_metadata_path : required. the location of the WARC metadata report, created using warc_metadata_report.py
+
+Returns:
+    A CSV file saved to the script_output folder with seed metadata and blank columns named with workflow steps.
 """
 from datetime import datetime, timedelta
 import os
@@ -39,10 +32,14 @@ import shared_functions as fun
 
 
 def aggregate_ids(data_df, id_name):
-    """
-    Makes a series with an aggregated set of the specified ID for each Seed ID.
-    This is used with Crawl Job ID and Crawl Definition ID.
-    Returns the series.
+    """Get the Crawl Job IDs or Crawl Definition IDs for each seed.
+
+    Parameters:
+        data_df : dataframe with metadata for all WARCs
+        id_name : the ID type, either Crawl_Job_ID or Crawl_Definition_ID
+
+    Returns:
+        A series with each seed and its IDs, with IDs separated by a semicolon if there is more than one.
     """
     # Makes a dataframe with unique seed and specified ID combinations.
     # This has to be done first so only unique values are combined,
@@ -60,10 +57,13 @@ def aggregate_ids(data_df, id_name):
 
 
 def create_new_metadata(data_df):
-    """
-    Combines WARC metadata into a summary for the seed.
-    Makes a series for each metadata type and then combines them into a dataframe.
-    Returns the dataframe.
+    """Combine WARC metadata into a summary for the seed.
+
+    Parameter:
+        data_df : dataframe with metadata for all WARCs
+
+    Returns:
+         Dataframe with Crawl Job ID, Crawl Definition ID, WARC Count, and WARC Size in GB for each seed.
     """
     # Crawl Job IDs combined for each seed. There may be more than one Crawl Job ID.
     crawl_jobs = aggregate_ids(data_df, 'Crawl_Job_ID')
@@ -85,13 +85,19 @@ def create_new_metadata(data_df):
 
 
 def save_csv(df, filename):
-    """
-    Adds empty columns to the dataframe to use for tracking the download process
-    and saves the dataframe to a CSV named Preservation_Download_YYYY-MM.
+    """Save the data and empty columns for tracking progress to a CSV.
+
+    Parameters:
+        df : dataframe with the seed data summarized from the WARC data
+        filename : path to the WARC metadata report, used to calculate the data of the data
+
+    Returns:
+        Nothing
     """
     # Adds an empty column for the AIP_ID (calculated later) to the beginning of the dataframe
     # and a number of empty columns for tracking to the end of the dataframe.
-    tracking_columns = ["Log: coll_scope", "Log:seed_scope", "Log: Other Reports", "WARC Download", "Completeness Log", "AIP Log", "QC1", "Upload", "Ingest", "QC2", "Complete"]
+    tracking_columns = ["Log_coll_scope", "Log_seed_scope", "Log_Other_Reports", "WARC_Download", "Completeness_Log",
+                        "AIP_Log", "QC1", "Upload", "Ingest", "QC2", "Complete"]
     df = df.reindex(columns=["AIP_ID"] + df.columns.tolist() + tracking_columns)
 
     # Calculates the month of the preservation download to include in the report filename.
@@ -106,11 +112,17 @@ def save_csv(df, filename):
 
 
 def verify_metadata_path(argument_list):
+    """Check the script argument is correct.
+
+    Parameter:
+        argument_list : value of sys.argv
+
+    Returns:
+         The path to the WARC CSV or raises an error.
     """
-    Verifies the required argument (path to WARC metadata report) is present and correct.
-    Returns the path or raises an error.
-    """
+    # Test if the required argument was included.
     try:
+        # Test if the required argument is a valid path.
         if os.path.exists(argument_list[1]):
             return argument_list[1]
         else:

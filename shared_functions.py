@@ -1,6 +1,4 @@
-"""
-Purpose: functions used by more than one script for working with the Archive-It APIs.
-"""
+"""Functions used by more than one script for working with the Archive-It APIs."""
 import csv
 import os
 import requests
@@ -9,9 +7,10 @@ import configuration as c
 
 
 def check_config():
-    """
-    Checks that all required variables are in the configuration file and correct.
-    If there are any errors, prints an explanation and quits the script.
+    """Check the configuration file is correct and if not quits the script.
+
+    The values of configuration.py are imported by running the script.
+    There are no parameters and it returns nothing.
     """
     errors = []
 
@@ -72,10 +71,15 @@ def check_config():
 
 
 def check_fields_to_include(args):
+    """Determine if the report should include required fields or all metadata fields based on the optional argument.
+
+    Parameter:
+        args : value of sys.argv
+
+    Returns:
+        Boolean if optional fields should be included (True) or not included (False)
     """
-    Checks if the report should include required fields only or all metadata fields,
-    based on the optional argument.
-    """
+    # If an additional argument was included, and the value is "required", optional fields are not included.
     if len(args) == 2 and args[1] == "required":
         return False
     else:
@@ -83,27 +87,39 @@ def check_fields_to_include(args):
 
 
 def get_metadata_value(data, field):
+    """Get and format the value of a field in the API data, which may be repeated, occur once, or not be included.
+
+    Parameters:
+        data : API data
+        field : field in the API to get the value from
+
+    Returns:
+        Value of the field, separated by semicolons if it is repeated and default text if it is not included.
     """
-    Returns the value of a field in the Archive-It Partner API data, from within the metadata section.
-    If the field is present once, returns the value of that field.
-    If the field is repeated, returns a string with all of the values separated by semicolons.
-    If the field is not in the data, returns the string "NO DATA OF THIS TYPE".
-    """
+    # If the field is present at least once, store all values into a list and
+    # return a string that includes all values, separated by a semicolon if the field was present more than once.
     try:
         values_list = []
         for value in data['metadata'][field]:
             values_list.append(value['value'])
         values = ';'.join(values_list)
         return values
+    # If the field is not present, returns a default string.
     except KeyError:
         return 'NO DATA OF THIS TYPE'
 
 
 def save_csv_row(report_path, row_list):
+    """Save a row to a CSV spreadsheet.
+
+    Parameters:
+        report_path : path to the report spreadsheet, which may or may not already exist
+        row_list : list with values for a single spreadsheet row
+
+    Returns:
+        Nothing
     """
-    Creates a CSV, if it doesn't already exist for this report,
-    and saves the provided list as a new row in the spreadsheet.
-    """
+    # Append will create the report if it doesn't already exist or add to the end of the report if it is present.
     with open(report_path, 'a', newline='') as output:
         write = csv.writer(output)
         write.writerow(row_list)

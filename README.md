@@ -1,103 +1,67 @@
 # Archive-It APIs Scripts
 
-# Purpose and Overview
-Use the Archive-It web archiving service APIs (Partner API and WASAPI) to generate reports.
+## Overview
 
-# Dependencies
-* Archive-It login credentials
-* Python requests libraries: `pip install requests`
+These scripts use the Archive-It web archiving service APIs 
+([Partner API](https://support.archive-it.org/hc/en-us/articles/360032747311-Access-your-account-with-the-Archive-It-Partner-API) 
+and [WASAPI](https://support.archive-it.org/hc/en-us/articles/360015225051-Find-and-download-your-WARC-files-with-WASAPI)) to generate reports.
+They are used to prepare for quarterly downloads from Archive-It for preservation and to review and update metadata. 
 
-# Scripts
+All reports are CSVs. Report scripts in this repository:
+
+- collection_metadata_report.py: [Example collection metadata report](documentation/collection_metadata_2023-10-18.csv)
+- preservation_download_tracker.py: WARC metadata summarized by seed. [Example preservation download tracker](documentation/Preservation_Download_2022-05.csv)
+- seed_metadata_report.py: [Example seed metadata report](documentation/seed_metadata_2023-10-18.csv)
+- warc_csv.py: WARC metadata for all WARCs stored during the specified time frame. [Example WARC metadata report](documentation/warc_metadata_2022-02-01_2022-04-30.csv)
+
+## Getting Started
+
+### Dependencies
+
+- [pandas](https://pandas.pydata.org/): edit and summarize API output
+- [requests](https://pypi.org/project/requests/): download content from the APIs
+
+### Installation
+
 Prior to using any of these scripts, create a file named configuration.py, modeled after configuration_template.py,
-and save it to your local copy of this repository.
+and save it to your local copy of this repository. 
+This defines a place for script output to be saved and includes your Archive-It login credentials.
 
-## collection_metadata_report.py
-Makes a CSV with all collection metadata in Archive-It:
-   * Collector - required
-   * Creator
-   * Date - required
-   * Description - required
-   * Identifier
-   * Language
-   * Relation
-   * Rights
-   * Subject
-   * Title - required
+### Script Arguments
 
-Script usage: `python collection_metadata_report.py [required]`
+collection_metadata_report.py
+   - required (optional): add "required" to limit the report to UGA's required collection metadata fields. 
+     Otherwise, all fields are included.
 
-Include "required" to limit the report to required fields. Otherwise, all fields are included.
+preservation_download_tracker.py
+   - warc_metadata_path (required): the location of the WARC metadata report, created using warc_metadata_report.py.
 
-## metadata_check_department.py
-Makes CSVs of each department's (collector's) collection and seed metadata.
-These reports just include the fields required by UGA>
+seed_metadata_report.py
+   - required (optional): add "required" to limit the report to UGA's required seed metadata fields. 
+     Otherwise, all fields are included.
 
-Script usage: `python metadata_check_department.py [output_directory]`
+warc_csv.py
+   - Both date arguments are formatted YYYY-MM-DD and define the date range of WARCs to include.
+   - start_date (required): first store date of WARCs to include.
+   - end_date (required): first store date of WARCs NOT to include (last date included is the day before end_date).
 
-If the path for the output directory is not provided, it uses the script output path from the configuration file.
+### Testing
 
-NOTE: this is a legacy script which will be deleted once the ability to limit to a single department is added
-to the collection and seed metadata reports.
-It has not been updated to use the shared functions and does not have unit tests.
+There are unit tests for each function and the entire script for each of the scripts,
+except for check_config() (Issue 21) and the API error for get_metadata() (Issue 22).
+The tests for functions that call the API and for the script rely on UGA Archive-It data.
+For UGA, the expected results of these tests may need to be updated occasionally to keep in sync with our edits.
+To use these tests with another account, all expected results must be edited to use data in that account.
 
-## preservation_download_tracker.py
-Makes a CSV from the WARC metadata report with seed (AIP) level information 
-for tracking UGA quarterly preservation downloads.
-   * AIP_ID: blank column, data added manually
-   * AIP_Title
-   * AIT_Collection_ID
-   * Seed_ID
-   * Crawl_Job_IDs: separated with semicolon if more than one
-   * Crawl_Definition_IDs: separated with semicolon if more than one
-   * WARC_Count: number of WARCs for the seed
-   * WARC_Size_GB: number of GB for all WARCs for the seed
-   * Batch: blank column for tracking progress
-   * Script_Log: blank column for tracking progress
-   * Completeness_Log: blank column for tracking progress
-   * QC1: blank column for tracking progress
-   * Upload: blank column for tracking progress
-   * Ingest: blank column for tracking progress
-   * QC2: blank column for tracking progress
-   * Complete: blank column for tracking progress
+## Workflow
 
-Script usage: `python preservation_download_tracker.py warc_metadata_path`
+These scripts are used for two different workflows at UGA:
+   - [Preservation Download Workflow Documentation](documentation/Workflow_Preservation_Download.md) 
+   - [Metadata Audit Workflow Documentation](documentation/Workflow_Metadata_Audit.md)
 
-warc_metadata_path is the location of the WARC metadata report, created using warc_metadata_report.py
 
-## seed_metadata_report.py
-Makes a CSV with all seed metadata in Archive-It.
-   * Collector - required
-   * Creator - required
-   * Date - required
-   * Description
-   * Identifier - required
-   * Language - required
-   * Relation
-   * Rights - required
-   * Subject
-   * Title - required
+The reports may also be created and used individually.
 
-Script usage: `python seed_metadata_report.py [required]`
+## Author
 
-Include "required" to limit the report to required fields. Otherwise, all fields are included.
-
-## warc_csv.py
-Makes a CSV with WARC metadata for all WARCs stored during the specified time frame:
-   * Seed Title
-   * Department (collector)
-   * WARC Filename
-   * AIT Collection ID
-   * Seed ID
-   * Crawl Job ID
-   * Crawl Definition ID
-   * Date (store-time)
-   * Date (crawl start)
-   * Date (crawl end)
-   * Size (GB)
-   * File Type
-   * WARC MD5 Checksum
-   * WARC SHA1 Checksum
-
-Script usage: `python warc_csv.py start_date end_date`
-
-WARCs stored on the start_date will be included. WARCs stored on the end_date will NOT be included.
+Adriane Hanson, Head of Digital Stewardship, University of Georgia

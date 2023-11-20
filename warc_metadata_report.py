@@ -1,30 +1,31 @@
-"""
-Purpose: Generate a report of WARC metadata from Archive-It.
-The report is saved to the script_output folder, which is defined in configuration.py
+"""Generate a report of WARC metadata from Archive-It.
 
 The primary use is to generate a list of all WARCs expected in the quarterly preservation download.
 This script is used instead of the "download as a CSV" option from WASAPI in a web browser
-to be able to reformat data and add data from the Partner API about the seed.
+to be able to reformat data and to add data from the Partner API about the seed.
 
 The report includes the following fields:
-    * Seed Title
+    * AIP_Title
     * Department (collector)
-    * WARC Filename
-    * AIT Collection ID
-    * Seed ID
-    * Crawl Job ID
-    * Crawl Definition ID
-    * Date (store-time)
-    * Date (crawl start)
-    * Date (crawl end)
-    * Size (GB)
-    * File Type
-    * WARC MD5 Checksum
-    * WARC SHA1 Checksum
+    * WARC_Filename
+    * AIT_Collection_ID
+    * Seed_ID
+    * Crawl_Job_ID
+    * Crawl_Definition_ID
+    * Date_Store-Time
+    * Date_Crawl-Start
+    * Date_Crawl-End
+    * Size_GB
+    * File_Type
+    * MD5_Checksum
+    * SHA1_Checksum
 
-Script usage: python warc_metadata_report.py start_date end_date
-WARCs stored on the start_date will be included in the report.
-WARCs stored on the end_date will NOT be included in the report.
+Parameters:
+    start_date : required, formatted YYYY-MM-DD. First store date of WARCs to include.
+    end_date : required, formatted YYYY-MM-DD. First store date of WARCs NOT to include (last date included is the day before end_date).
+
+Returns:
+    A CSV file saved to the script_output folder with WARC metadata from Archive-It.
 """
 from datetime import datetime, timedelta
 import re
@@ -41,22 +42,30 @@ import shared_functions as fun
 
 
 def calculate_seed_id(warc_name):
-    """
-    Uses a regular expression to identify the Seed Id component of the WARC filename.
-    Returns the Seed ID or default text if the pattern does not match.
+    """Identify the Seed Id component of the WARC filename.
+
+    Parameter:
+        warc_name : WARC file name in Archive-It
+
+    Returns:
+        Seed ID or default text if WARC filename does not match the expected pattern.
     """
     try:
         regex = re.match(r'^.*?SEED(\d+)-', warc_name)
-        id = regex.group(1)
+        seed_id = regex.group(1)
     except AttributeError:
-        id = "COULD NOT CALCULATE SEED ID"
-    return id
+        seed_id = "COULD NOT CALCULATE SEED ID"
+    return seed_id
 
 
 def get_crawl_definition(job):
-    """
-    Uses the Partner API to get the report for this crawl job, which includes the crawl definition.
-    Returns the crawl definition id or default text if no id is found.
+    """Get the crawl definition id from the crawl job report.
+
+    Parameter:
+        job : Crawl Job ID in Archive-It
+
+    Returns:
+         Crawl Definition ID or default text if the ID cannot be obtained.
     """
 
     # Gets the crawl job report using the Partner API.
@@ -74,9 +83,13 @@ def get_crawl_definition(job):
 
 
 def get_seed_metadata(seed):
-    """
-    Uses the Partner API to get the seed report for this seed, which includes the collector and title.
-    Returns the collector and title or default text if either are not found.
+    """Get the collector and title from the seed report.
+
+    Parameter:
+        seed : Seed ID in Archive-It
+
+    Returns:
+         Collector and Title or default text if either are not obtained.
     """
 
     # Gets the seed report using the Partner API.
@@ -102,9 +115,15 @@ def get_seed_metadata(seed):
 
 
 def get_warc_metadata(start, end):
-    """Uses WASAPI to get metadata for all WARCs stored during the specified date range.
-    WARCs saved on the start date will be included. WARCs saved on the end date will not be included.
-    Returns the WARC metadata, which is json, or raises an error."""
+    """Get metadata for all WARCs stored during the specified date range.
+
+    Parameters:
+        start : first store date of WARCs to include.
+        end : first store date of WARCs NOT to include (last date included is the day before end_date).
+
+    Returns:
+         WARC metadata (json) or raises a value error.
+    """
 
     # Gets the data from WASAPI using a page size (number of WARCs) that is typically sufficient.
     filters = {'store-time-after': start, 'store-time-before': end, 'page_size': 500}
@@ -124,10 +143,13 @@ def get_warc_metadata(start, end):
 
 
 def size_to_gb(size_bytes):
-    """
-    Converts the size from bytes (value from API) to GB.
-    As long as it won't result in 0, round to 2 decimal places.
-    Returns the size in GB.
+    """Convert the size from bytes to GB and round to 2 decimal places if that does not result in 0.
+
+    Parameter:
+        size_bytes : size in Archive-It
+
+    Returns:
+         Size in GB
     """
     size = float(size_bytes) / 1000000000
     if size > 0.01:
@@ -136,9 +158,13 @@ def size_to_gb(size_bytes):
 
 
 def verify_dates(argument_list):
-    """
-    Verifies the two required arguments (start and end date) are present and correct.
-    Returns the dates and errors list, which is empty if there were no errors.
+    """Verify the two required arguments (start and end date) are present and correct.
+
+    Parameter:
+        argument_list : value of sys.argv
+
+    Returns:
+         Start date, end date, and  errors list (which is empty if there were no errors).
     """
     start = None
     end = None
