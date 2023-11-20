@@ -2,8 +2,9 @@
 
 ## Overview
 
-The UGA Libraries downloads all WARCs saved in a quarter (3-month period), along with a subset of the metadata reports. 
-The downloaded content is saved to the Libraries’ digital preservation system.
+The UGA Libraries downloads all WARCs saved in a quarter (3-month period), along with a subset of the metadata reports.
+Downloads are the first of February, May, August, and November for the 3 months prior.
+The downloaded content is saved to the Libraries’ digital preservation system (ARCHive).
 
 ## Responsibility
 
