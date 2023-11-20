@@ -7,26 +7,12 @@ These scripts use the Archive-It web archiving service APIs
 and [WASAPI](https://support.archive-it.org/hc/en-us/articles/360015225051-Find-and-download-your-WARC-files-with-WASAPI)) to generate reports.
 They are used to prepare for quarterly downloads from Archive-It for preservation and to review and update metadata. 
 
-### collection_metadata_report.py
+All reports are CSVs. Report scripts in this repository:
 
-Makes a CSV with all collection metadata or just required collection metadata. 
-Example: [collection_metadata_2023-10-18.csv](documentation/collection_metadata_2023-10-18.csv)
-
-### preservation_download_tracker.py
-
-Makes a CSV from the WARC metadata report with seed (AIP) level information 
-for tracking UGA quarterly preservation downloads.
-Example: [Preservation_Download_2022-05.csv](documentation/Preservation_Download_2022-05.csv)
-
-### seed_metadata_report.py
-
-Makes a CSV with all seed metadata or just required seed metadata.
-Example: [seed_metadata_2023-10-18.csv](documentation/seed_metadata_2023-10-18.csv)
-
-### warc_csv.py
-
-Makes a CSV with WARC metadata for all WARCs stored during the specified time frame.
-Example: [warc_metadata_2022-02-01_2022-04-30.csv](documentation/warc_metadata_2022-02-01_2022-04-30.csv)
+- collection_metadata_report.py: [Example collection metadata report](documentation/collection_metadata_2023-10-18.csv)
+- preservation_download_tracker.py: WARC metadata summarized by seed. [Example preservation download tracker](documentation/Preservation_Download_2022-05.csv)
+- seed_metadata_report.py: [Example seed metadata report](documentation/seed_metadata_2023-10-18.csv)
+- warc_csv.py: WARC metadata for all WARCs stored during the specified time frame. [Example WARC metadata report](documentation/warc_metadata_2022-02-01_2022-04-30.csv)
 
 ## Getting Started
 
