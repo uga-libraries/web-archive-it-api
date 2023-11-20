@@ -18,7 +18,8 @@ All reports are CSVs. Report scripts in this repository:
 
 ### Dependencies
 
-
+- [pandas](https://pandas.pydata.org/): edit and summarize API output
+- [requests](https://pypi.org/project/requests/): download content from the APIs
 
 ### Installation
 
