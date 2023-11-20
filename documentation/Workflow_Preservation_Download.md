@@ -47,6 +47,11 @@ It is not currently used by any other department at UGA.
 
  
 2. Use the preservation_download_tracker.py script and the WARC metadata report to create a spreadsheet for tracking the download progress. 
+   Once the CSV is made by the script:
+    - Convert it to Excel.
+    - Save the spreadsheet to Teams for easy access during the process.
+    - For MAGIL, add the AIP ID using the pattern magil-ggp-seed#-yyyy-mm, where the date is the download month. 
+      Other AIP ids are based on the sequence they are downloaded and must be mapped to seeds after the download is complete with the metadata.csv
 
 
 3. Use the [Web AIP script](https://github.com/uga-libraries/web-aip) to download the WARCs and metadata that will be preserved. 
