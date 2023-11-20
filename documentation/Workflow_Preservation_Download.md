@@ -4,7 +4,6 @@
 
 The UGA Libraries downloads all WARCs saved in a quarter (3-month period), along with a subset of the metadata reports. 
 The downloaded content is saved to the Libraries’ digital preservation system.
-This workflow has been in use since 2020, but not previously documented beyond the scripts used.
 
 ## Responsibility
 
@@ -49,3 +48,7 @@ UGA’s Archive-It Administrator (Head of Digital Stewardship) runs this workflo
 3. Use the [Web AIP script](https://github.com/uga-libraries/web-aip) to download the WARCs and metadata that will be preserved. 
    See the documentation in that repository for the rest of the workflow. 
    Besides using the tracking spreadsheet, the only step that involves output from these scripts is adding the WARC metadata report information to the WARC Inventory.
+   
+## History
+
+This workflow has been in use since 2020, but not previously documented beyond the scripts used and a Trello card template.
