@@ -5,8 +5,7 @@
 These scripts use the Archive-It web archiving service APIs 
 ([Partner API](https://support.archive-it.org/hc/en-us/articles/360032747311-Access-your-account-with-the-Archive-It-Partner-API) 
 and [WASAPI](https://support.archive-it.org/hc/en-us/articles/360015225051-Find-and-download-your-WARC-files-with-WASAPI)) to generate reports.
-They are used as part of the preparation for quarterly downloads from Archive-It for preservation and
-to review and update metadata. 
+They are used to prepare for quarterly downloads from Archive-It for preservation and to review and update metadata. 
 
 ### collection_metadata_report.py
 
