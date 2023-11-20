@@ -30,20 +30,20 @@ This defines a place for script output to be saved and includes your Archive-It 
 ### Script Arguments
 
 collection_metadata_report.py
-   - required (optional): add "required" to limit the report to required collection metadata fields. 
+   - required (optional): add "required" to limit the report to UGA's required collection metadata fields. 
      Otherwise, all fields are included.
 
 preservation_download_tracker.py
    - warc_metadata_path (required): the location of the WARC metadata report, created using warc_metadata_report.py.
 
 seed_metadata_report.py
-   - required (optional): add "required" to limit the report to required seed metadata fields. 
+   - required (optional): add "required" to limit the report to UGA's required seed metadata fields. 
      Otherwise, all fields are included.
 
 warc_csv.py
-   - Both date arguments are formatted YYYY-MM-DD and define the date range of WARCs to include
-   - start_date (required): first store date of WARCs to include
-   - end_date (required): first store date of WARCs NOT to include (last date included is the day before end_date)
+   - Both date arguments are formatted YYYY-MM-DD and define the date range of WARCs to include.
+   - start_date (required): first store date of WARCs to include.
+   - end_date (required): first store date of WARCs NOT to include (last date included is the day before end_date).
 
 ### Testing
 
