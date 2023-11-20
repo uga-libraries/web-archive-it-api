@@ -1,6 +1,4 @@
-"""
-Purpose: functions used by more than one script for working with the Archive-It APIs.
-"""
+"""Functions used by more than one script for working with the Archive-It APIs."""
 import csv
 import os
 import requests

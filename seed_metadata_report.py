@@ -1,7 +1,4 @@
-"""
-Purpose: Generate a report of seed metadata fields from Archive-It.
-The report is saved to the script_output folder, which is defined in configuration.py
-The report can include just required fields (from the UGA Metadata Profile) or all fields.
+"""Generate a report of seed metadata fields from Archive-It.
 
 The primary uses are to verify metadata is complete prior to a preservation download and
 to review and batch edit the metadata.
@@ -20,9 +17,12 @@ The report includes the following metadata fields for all seeds:
 
 It also includes the Archive-It ID number, name, and URL to the seed's Archive-It metadata page.
 
-Script usage: python seed_metadata_report.py [required]
-Include "required" as an optional argument to only include the required fields.
-If there is no argument, or it is some other text besides required, the report will have all fields.
+Parameter:
+    required : optional. Include string "required" to limit the report to required fields.
+               If there is no argument, or it is some other text besides required, the report will have all fields.
+
+Returns:
+    A CSV file saved to the script_output folder with seed metadata from Archive-It.
 """
 from datetime import datetime
 import requests

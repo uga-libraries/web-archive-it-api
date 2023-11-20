@@ -1,9 +1,6 @@
-"""
-Purpose: generate a report of seeds to be included in a preservation download.
-The report includes metadata about the seeds and columns for tracking the progress.
-The report uses the WARC metadata report (created with warc_metadata_report.py) as input.
+"""Generate a report of seeds to be included in a preservation download.
 
-The report includes the following fields for all included seeds:
+The report includes the following fields for all included seeds, plus tracking columns:
    * AIP_ID [blank column, data added manually]
    * AIP_Title
    * Department
@@ -13,20 +10,12 @@ The report includes the following fields for all included seeds:
    * Crawl_Definition_ID: separated with semicolon if more than one
    * WARC_Count: number of WARCs for the seed
    * WARC_Size_GB: number of GB for all WARCs for the seed
-   * Log_coll_scope [blank column for tracking workflow progress]
-   * Log_seed_scope [blank column for tracking workflow progress]
-   * Log_Other_Reports [blank column for tracking workflow progress]
-   * WARC_Download [blank column for tracking workflow progress]
-   * Completeness_Log [blank column for tracking workflow progress]
-   * AIP_Log [blank column for tracking workflow progress]
-   * QC1 [blank column for tracking workflow progress]
-   * Upload [blank column for tracking workflow progress]
-   * Ingest [blank column for tracking workflow progress]
-   * QC2 [blank column for tracking workflow progress]
-   * Complete [blank column for tracking workflow progress]
 
-Script usage: python preservation_download_tracker.py warc_metadata_path
-warc_metadata_path is the location of the WARC metadata report, created using warc_metadata_report.py
+Parameter:
+    warc_metadata_path : required. the location of the WARC metadata report, created using warc_metadata_report.py
+
+Returns:
+    A CSV file saved to the script_output folder with seed metadata and blank columns named with workflow steps.
 """
 from datetime import datetime, timedelta
 import os

@@ -1,6 +1,4 @@
-"""
-Purpose: Generate a report of WARC metadata from Archive-It.
-The report is saved to the script_output folder, which is defined in configuration.py
+"""Generate a report of WARC metadata from Archive-It.
 
 The primary use is to generate a list of all WARCs expected in the quarterly preservation download.
 This script is used instead of the "download as a CSV" option from WASAPI in a web browser
@@ -22,9 +20,12 @@ The report includes the following fields:
     * MD5_Checksum
     * SHA1_Checksum
 
-Script usage: python warc_metadata_report.py start_date end_date
-WARCs stored on the start_date will be included in the report.
-WARCs stored on the end_date will NOT be included in the report.
+Parameters:
+    start_date : required, formatted YYYY-MM-DD. First store date of WARCs to include.
+    end_date : required, formatted YYYY-MM-DD. First store date of WARCs NOT to include (last date included is the day before end_date).
+
+Returns:
+    A CSV file saved to the script_output folder with WARC metadata from Archive-It.
 """
 from datetime import datetime, timedelta
 import re
