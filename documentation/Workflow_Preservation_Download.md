@@ -9,6 +9,7 @@ The downloaded content is saved to the Libraries’ digital preservation system 
 ## Responsibility
 
 UGA’s Archive-It Administrator (Head of Digital Stewardship) runs this workflow for Hargrett, MAGIL, and Russell.
+It is not currently used by any other department at UGA.
 
 ## Workflow
 
