@@ -21,7 +21,7 @@ It is not currently used by any other department at UGA.
  
 2. Review the collection and seed metadata reports for required fields with missing values. 
    If the value is missing, it will have "NO DATA OF THIS TYPE" in the spreadsheet. 
-   Use the WARC metadata report to determine if a seed will be included in this download. 
+   Use the WARC metadata report and check for unsaved test crawls in the Archive-It interface to determine if a seed will be included in this download. 
    If not, it does not need complete metadata. 
 
  
