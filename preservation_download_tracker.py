@@ -43,10 +43,14 @@ import shared_functions as fun
 
 
 def aggregate_ids(data_df, id_name):
-    """
-    Makes a series with an aggregated set of the specified ID for each Seed ID.
-    This is used with Crawl Job ID and Crawl Definition ID.
-    Returns the series.
+    """Get the Crawl Job IDs or Crawl Definition IDs for each seed.
+
+    Parameters:
+        data_df : dataframe with metadata for all WARCs
+        id_name : the ID type, either Crawl_Job_ID or Crawl_Definition_ID
+
+    Returns:
+        A series with each seed and its IDs, with IDs separated by a semicolon if there is more than one.
     """
     # Makes a dataframe with unique seed and specified ID combinations.
     # This has to be done first so only unique values are combined,
@@ -64,10 +68,13 @@ def aggregate_ids(data_df, id_name):
 
 
 def create_new_metadata(data_df):
-    """
-    Combines WARC metadata into a summary for the seed.
-    Makes a series for each metadata type and then combines them into a dataframe.
-    Returns the dataframe.
+    """Combine WARC metadata into a summary for the seed.
+
+    Parameter:
+        data_df : dataframe with metadata for all WARCs
+
+    Returns:
+         Dataframe with Crawl Job ID, Crawl Definition ID, WARC Count, and WARC Size in GB for each seed.
     """
     # Crawl Job IDs combined for each seed. There may be more than one Crawl Job ID.
     crawl_jobs = aggregate_ids(data_df, 'Crawl_Job_ID')
@@ -89,9 +96,14 @@ def create_new_metadata(data_df):
 
 
 def save_csv(df, filename):
-    """
-    Adds empty columns to the dataframe to use for tracking the download process
-    and saves the dataframe to a CSV named Preservation_Download_YYYY-MM.
+    """Save the data and empty columns for tracking progress to a CSV.
+
+    Parameters:
+        df : dataframe with the seed data summarized from the WARC data
+        filename : path to the WARC metadata report, used to calculate the data of the data
+
+    Returns:
+        Nothing
     """
     # Adds an empty column for the AIP_ID (calculated later) to the beginning of the dataframe
     # and a number of empty columns for tracking to the end of the dataframe.
@@ -111,11 +123,17 @@ def save_csv(df, filename):
 
 
 def verify_metadata_path(argument_list):
+    """Check the script argument is correct.
+
+    Parameter:
+        argument_list : value of sys.argv
+
+    Returns:
+         The path to the WARC CSV or raises an error.
     """
-    Verifies the required argument (path to WARC metadata report) is present and correct.
-    Returns the path or raises an error.
-    """
+    # Test if the required argument was included.
     try:
+        # Test if the required argument is a valid path.
         if os.path.exists(argument_list[1]):
             return argument_list[1]
         else:
