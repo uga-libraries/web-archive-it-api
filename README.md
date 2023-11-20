@@ -55,33 +55,12 @@ To use these tests with another account, all expected results must be edited to 
 
 ## Workflow
 
-These scripts are primarily used for two different workflows, the quarterly download of content from Archive-It for preservation
-and auditing metadata to ensure it meets the UGA Libraries' standards. 
-The reports may also be created and used individually. 
+These scripts are used for two different workflows at UGA:
+   - [Preservation Download Workflow Documentation](documentation/Workflow_Preservation_Download.md) 
+   - [Metadata Audit Workflow Documentation](documentation/Workflow_Metadata_Audit.md)
 
-### Preservation Download
 
-[Preservation Download Workflow Documentation](documentation/Workflow_Preservation_Download.md)
-
-1. Two weeks before the download, create collection, seed, and WARC metadata reports.
-2. Review the collection and seed metadata reports for missing metadata.
-3. Review the WARC metadata report for unusual activity.
-4. Email the collecting units to make corrections.
-5. Verify the missing metadata has been added.
-6. On the day of the download, create an updated WARC metadata report if any crawls were saved since it was last generated.
-7. Make the preservation download tracker spreadsheet for tracking the workflow progress.
-8. Download the WARCs and associated metadata using the [web aip script](https://github.com/uga-libraries/web-aip).
-9. Convert the downloaded content into AIPs using the [general aip script](https://github.com/uga-libraries/general-aip).
-10. Ingest the AIPs into ARCHive, the Libraries' digital preservation system.
-
-### Metadata Audit
-
-[Metadata Audit Workflow Documentation](documentation/Workflow_Metadata_Audit.md)
-
-1. Use these scripts to create a collection and/or seed report.
-2. Compare the reports to the [UGA Web Archives Metadata Profile](https://github.com/uga-libraries/web-archiving/blob/main/metadata_profile.md).
-3. Edit the report(s).
-4. Upload the report(s) to Archive-It.
+The reports may also be created and used individually.
 
 ## Author
 
