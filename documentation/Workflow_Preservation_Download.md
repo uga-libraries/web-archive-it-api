@@ -41,7 +41,7 @@ It is not currently used by any other department at UGA.
 
 ### Day of Download
 
-1. Check the Crawl Reports tab on the Archive-It Crawls page. 
+1. Check the [Crawl Reports tab on the Archive-It Crawls page](https://partner.archive-it.org/1468/crawls). 
    If any crawls were saved in the last two weeks, create another WARC metadata report. 
    If not, continue to use the WARC metadata report created during the preparation phase of the workflow.
 
