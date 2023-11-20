@@ -10,11 +10,7 @@ They are used to prepare for quarterly downloads from Archive-It for preservatio
 ### collection_metadata_report.py
 
 Makes a CSV with all collection metadata or just required collection metadata. 
-Example: [collection_metadata_2023-10-18.csv](documentation/collection_metadata_2023-10-18.csv) 
-
-Script usage: `python collection_metadata_report.py [required]`
-
-Include "required" to limit the report to required fields. Otherwise, all fields are included.
+Example: [collection_metadata_2023-10-18.csv](documentation/collection_metadata_2023-10-18.csv)
 
 ### preservation_download_tracker.py
 
@@ -22,27 +18,15 @@ Makes a CSV from the WARC metadata report with seed (AIP) level information
 for tracking UGA quarterly preservation downloads.
 Example: [Preservation_Download_2022-05.csv](documentation/Preservation_Download_2022-05.csv)
 
-Script usage: `python preservation_download_tracker.py warc_metadata_path`
-
-warc_metadata_path is the location of the WARC metadata report, created using warc_metadata_report.py
-
 ### seed_metadata_report.py
 
 Makes a CSV with all seed metadata or just required seed metadata.
 Example: [seed_metadata_2023-10-18.csv](documentation/seed_metadata_2023-10-18.csv)
 
-Script usage: `python seed_metadata_report.py [required]`
-
-Include "required" to limit the report to required fields. Otherwise, all fields are included.
-
 ### warc_csv.py
 
 Makes a CSV with WARC metadata for all WARCs stored during the specified time frame.
-WARCs stored on the start_date will be included. 
-WARCs stored on the end_date will NOT be included.
 Example: [warc_metadata_2022-02-01_2022-04-30.csv](documentation/warc_metadata_2022-02-01_2022-04-30.csv)
-
-Script usage: `python warc_csv.py start_date end_date`
 
 ## Getting Started
 
@@ -54,6 +38,24 @@ Script usage: `python warc_csv.py start_date end_date`
 
 Prior to using any of these scripts, create a file named configuration.py, modeled after configuration_template.py,
 and save it to your local copy of this repository.
+
+### Script Arguments
+
+collection_metadata_report.py
+   - required (optional): add "required" to limit the report to required collection metadata fields. 
+     Otherwise, all fields are included.
+
+preservation_download_tracker.py
+   - warc_metadata_path (required): the location of the WARC metadata report, created using warc_metadata_report.py.
+
+seed_metadata_report.py
+   - required (optional): add "required" to limit the report to required seed metadata fields. 
+     Otherwise, all fields are included.
+
+warc_csv.py
+   - Both date arguments are formatted YYYY-MM-DD and define the date range of WARCs to include
+   - start_date (required): first store date of WARCs to include
+   - end_date (required): first store date of WARCs NOT to include (last date included is the day before end_date)
 
 ## Workflow
 
