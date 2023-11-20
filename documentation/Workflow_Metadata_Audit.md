@@ -8,6 +8,11 @@ Reports used to check metadata prior to preservation downloads can also be used 
 Caution: this is an intended use of the reports but has not yet been implemented in practice,
 so this workflow is untested.
 
+## Responsibility
+
+UGA’s Archive-It Administrator (Head of Digital Stewardship) may audit that all metadata meets UGA's requirements.
+Collecting units may also use this workflow to work with their own metadata.
+
 ## Workflow
 
 1. Using the correct [API script](https://github.com/uga-libraries/web-archive-it-api), download the collection and/or seed metadata report. 
