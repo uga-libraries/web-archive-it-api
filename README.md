@@ -18,12 +18,13 @@ All reports are CSVs. Report scripts in this repository:
 
 ### Dependencies
 
-* Archive-It login credentials
+
 
 ### Installation
 
 Prior to using any of these scripts, create a file named configuration.py, modeled after configuration_template.py,
-and save it to your local copy of this repository.
+and save it to your local copy of this repository. 
+This defines a place for script output to be saved and includes your Archive-It login credentials.
 
 ### Script Arguments
 
