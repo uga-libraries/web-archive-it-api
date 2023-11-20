@@ -37,9 +37,10 @@ import shared_functions as fun
 
 
 def get_metadata():
-    """
-    Gets the metadata for all collections from the Archive-It Partner API and returns the metadata, which is json.
-    If there was an error with the API call, quits the script.
+    """Get collection metadata from the Archive-It Partner API or quit the script if there is an error.
+
+    Returns:
+        Collection metadata (json)
     """
     collections_metadata = requests.get(f'{c.partner_api}/collection?limit=-1', auth=(c.username, c.password))
     if not collections_metadata.status_code == 200:
@@ -50,9 +51,13 @@ def get_metadata():
 
 
 def get_header(optional):
-    """
-    Returns a list with the column names for the CSV,
-    which are different depending on if required fields or all fields will be included.
+    """Gets the column names for the CSV, which depends on which fields will be included.
+
+    Parameter:
+        optional : If all fields will be included (Boolean)
+
+    Returns:
+         A list with the column names
     """
     required_header = ["ID", "Name", "Collector", "Date", "Description", "Title", "Archive-It Metadata Page"]
 
@@ -67,8 +72,14 @@ def get_header(optional):
 
 
 def make_metadata_list(collection_data, header_list):
-    """
-    Makes and returns a list of metadata values for a particular collection.
+    """Make a list of metadata values for a particular collection.
+
+    Parameters:
+        collection_data : API data for the collection
+        header_list : list of CSV column names, which are the metadata fields that should be included
+
+    Returns:
+        A list of values from each metadata field in the CSV.
     """
     # The first 2 values are in the collection data but not the metadata section.
     # They are always present and do not repeat.
