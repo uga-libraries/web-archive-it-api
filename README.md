@@ -45,6 +45,14 @@ warc_csv.py
    - start_date (required): first store date of WARCs to include
    - end_date (required): first store date of WARCs NOT to include (last date included is the day before end_date)
 
+### Testing
+
+There are unit tests for each function and the entire script for each of the scripts,
+except for check_config() (Issue 21) and the API error for get_metadata() (Issue 22).
+The tests for functions that call the API and for the script rely on UGA Archive-It data.
+For UGA, the expected results of these tests may need to be updated occasionally to keep in sync with our edits.
+To use these tests with another account, all expected results must be edited to use data in that account.
+
 ## Workflow
 
 These scripts are primarily used for two different workflows, the quarterly download of content from Archive-It for preservation
