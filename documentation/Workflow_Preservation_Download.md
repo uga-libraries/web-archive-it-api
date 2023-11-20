@@ -27,6 +27,8 @@ It is not currently used by any other department at UGA.
  
 3. Review the WARC metadata report for any unusual activity. 
    In a few cases, we have decided not to include a website in the preservation download. 
+   Thus far, that was a podcast site that was crawled in error (identified because it was a repeat crawl with a much larger size than usual), 
+   and a website where we did not receive the expected collection donation (identified because it did not have the required metadata).
 
 
 4. Email the contacts at the collecting units with a list of the metadata to add and any questions about the WARCs being preserved. 
