@@ -1,4 +1,4 @@
-# Preservation Download Workflow, 2023-10-18
+# Preservation Download Workflow Part 1, 2023-10-18
 
 ## Overview
 
@@ -54,9 +54,10 @@ It is not currently used by any other department at UGA.
       Other AIP ids are based on the sequence they are downloaded and must be mapped to seeds after the download is complete with the metadata.csv
 
 
-3. Use the [Web AIP script](https://github.com/uga-libraries/web-aip) to download the WARCs and metadata that will be preserved. 
-   See the documentation in that repository for the rest of the workflow. 
-   Besides using the tracking spreadsheet, the only step that involves output from these scripts is adding the WARC metadata report information to the WARC Inventory.
+### Part 2 
+Use the [Web AIP script](https://github.com/uga-libraries/web-aip) to download the WARCs and metadata that will be preserved. 
+See the documentation in that repository for that portion of the workflow. 
+Besides using the tracking spreadsheet, the only step that involves output from these scripts is adding the WARC metadata report information to the WARC Inventory.
    
 ## History
 
