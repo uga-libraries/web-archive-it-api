@@ -135,7 +135,14 @@ class MyTestCase(unittest.TestCase):
                      "This collection contains websites related research and instruction at the University of Georgia.",
                      "NO DATA OF THIS TYPE", "NO DATA OF THIS TYPE", "NO DATA OF THIS TYPE", "NO DATA OF THIS TYPE",
                      "NO DATA OF THIS TYPE", "University of Georgia Academics",
-                     f"{c.inst_page}/collections/16951/metadata"]]
+                     f"{c.inst_page}/collections/16951/metadata"],
+                    ["21635", "Hargrett Manuscripts", "Hargrett Rare Book & Manuscript Library",
+                     "NO DATA OF THIS TYPE", "Captured 2024-",
+                     "This collection contains websites documenting the literary, cultural, social, and economic "
+                     "history of Georgia and its peoples, in accordance with the broader collection development "
+                     "policy of the Hargrett Library.", "NO DATA OF THIS TYPE", "NO DATA OF THIS TYPE",
+                     "NO DATA OF THIS TYPE", "NO DATA OF THIS TYPE", "NO DATA OF THIS TYPE", "Hargrett Manuscripts",
+                     f"{c.inst_page}/collections/21635/metadata"]]
 
         self.assertEqual(actual, expected, "Problem with test: all fields.")
 
@@ -222,7 +229,13 @@ class MyTestCase(unittest.TestCase):
                     ["16951", "University of Georgia Academics", "Hargrett Rare Book & Manuscript Library",
                      "Captured 2021-", "This collection contains websites related research and instruction at the "
                                        "University of Georgia.",
-                     "University of Georgia Academics", f"{c.inst_page}/collections/16951/metadata"]]
+                     "University of Georgia Academics", f"{c.inst_page}/collections/16951/metadata"],
+                    ["21635", "Hargrett Manuscripts", "Hargrett Rare Book & Manuscript Library", "Captured 2024-",
+                     "This collection contains websites documenting the literary, cultural, social, and economic "
+                     "history of Georgia and its peoples, in accordance with the broader collection development "
+                     "policy of the Hargrett Library.", "Hargrett Manuscripts",
+                     f"{c.inst_page}/collections/21635/metadata"]
+                    ]
 
         self.assertEqual(actual, expected, "Problem with test: required fields.")
 
