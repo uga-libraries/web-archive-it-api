@@ -43,19 +43,21 @@ class MyTestCase(unittest.TestCase):
         os.remove(report_path)
 
         expected = [["AIP_ID", "AIP_Title", "Department", "AIT_Collection_ID", "Seed_ID", "Crawl_Job_ID",
-                     "Crawl_Definition_ID", "WARC_Count", "WARC_Size_GB", "Batch", "Script_Log", "Completeness_Log",
-                     "QC1", "Upload", "Ingest", "QC2", "Complete"],
+                     "Crawl_Definition_ID", "WARC_Count", "WARC_Size_GB", "Log_coll_scope", "Log_seed_scope",
+                     "Log_Other_Reports", "WARC_Download", "Completeness_Log", "AIP_Log", "QC1", "Upload", "Ingest",
+                     "QC2", "Complete"],
                     ["", "Georgia Department of Natural Resources Coastal Research Division",
                      "Map and Government Information Library", "15678", "2520386", "1773352", "31104635513",
-                     "1", "0.33", "", "", "", "", "", "", "", ""],
+                     "1", "0.33", "", "", "", "", "", "", "", "", "", "", ""],
                     ["", "Georgia Department of Early Care and Learning (Bright from the Start)",
                      "Map and Government Information Library", "15678", "2523324", "1773295", "31104635486",
-                     "27", "41.21", "", "", "", "", "", "", "", ""],
+                     "27", "41.21", "", "", "", "", "", "", "", "", "", "", ""],
                     ["", "Georgia Department of Natural Resources Law Enforcement Division",
                      "Map and Government Information Library", "15678", "2520385", "1774325", "31104635968",
-                     "1", "0.07", "", "", "", "", "", "", "", ""],
+                     "1", "0.07", "", "", "", "", "", "", "", "", "", "", ""],
                     ["", "Georgia Department of Public Health", "Map and Government Information Library",
-                     "15678", "2472042", "1773695", "31104635677", "17", "3.98", "", "", "", "", "", "", "", ""]]
+                     "15678", "2472042", "1773695", "31104635677", "17", "3.98", "", "", "", "", "", "", "",
+                     "", "", "", ""]]
 
         self.assertEqual(actual, expected, "Problem with test for save csv")
 
