@@ -35,12 +35,12 @@ class MyTestCase(unittest.TestCase):
                      "Identifier", "Language", "Relation", "Rights", "Subject", "Title [required]",
                      "Archive-It Metadata Page"],
                     ["11071", "Trial 2018", "University of Georgia Libraries Testing",
-                     "Test Creator Two;Test Creator One", "Captured 2018-2020",
+                     "Test Creator One;Test Creator Two", "Captured 2018-2020",
                      "Tests run by Archive-It on UGA's behalf as a demonstration of the service while we considered "
                      "becoming subscribers.",
-                     "Test ID", "Test Language Two;Test Language One",
-                     "Test Relation Two;Test Relation One", "Test Rights Two;Test Rights One",
-                     "Test Subject Two;Test Subject One", "Trial 2018", f"{c.inst_page}/collections/11071/metadata"],
+                     "Test ID", "Test Language One;Test Language Two",
+                     "Test Relation One;Test Relation Two", "Test Rights One;Test Rights Two",
+                     "Test Subject One;Test Subject Two", "Trial 2018", f"{c.inst_page}/collections/11071/metadata"],
                     ["12181", "University of Georgia Student Life", "Hargrett Rare Book & Manuscript Library",
                      "NO DATA OF THIS TYPE", "Captured 2019-",
                      "This collection contains websites related to the University of Georgia's "
