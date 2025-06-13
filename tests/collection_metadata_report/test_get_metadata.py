@@ -27,14 +27,42 @@ class MyTestCase(unittest.TestCase):
                 "last_updated_by": "ahanson",
                 "last_updated_date": "2022-01-18T18:11:43.740774Z",
                 "metadata": {
-                    "Relation": [
+                    "Collector": [
                         {
-                            "id": 7236756,
-                            "value": "Test Relation Two"
+                            "id": 7695086,
+                            "value": "University of Georgia Libraries Testing"
+                        }
+                    ],
+                    "Creator": [
+                        {
+                            "id": 7236758,
+                            "value": "Test Creator One"
                         },
+                        {
+                            "id": 7236759,
+                            "value": "Test Creator Two"
+                        }
+                    ],
+                    "Identifier": [
+                        {
+                            "id": 7236752,
+                            "value": "Test ID"
+                        }
+                    ],
+                    "Relation": [
                         {
                             "id": 7236755,
                             "value": "Test Relation One"
+                        },
+                        {
+                            "id": 7236756,
+                            "value": "Test Relation Two"
+                        }
+                    ],
+                     "Title": [
+                        {
+                            "id": 6803211,
+                            "value": "Trial 2018"
                         }
                     ],
                     "Description": [
@@ -44,68 +72,40 @@ class MyTestCase(unittest.TestCase):
                                      "we considered becoming subscribers."
                         }
                     ],
-                    "Identifier": [
-                        {
-                            "id": 7236752,
-                            "value": "Test ID"
-                        }
-                    ],
-                    "Collector": [
-                        {
-                            "id": 7695086,
-                            "value": "University of Georgia Libraries Testing"
-                        }
-                    ],
-                    "Subject": [
-                        {
-                            "id": 7236754,
-                            "value": "Test Subject Two"
-                        },
-                        {
-                            "id": 7236753,
-                            "value": "Test Subject One"
-                        }
-                    ],
                     "Date": [
                         {
                             "id": 8590671,
                             "value": "Captured 2018-2020"
                         }
                     ],
-                    "Rights": [
-                        {
-                            "id": 7236761,
-                            "value": "Test Rights Two"
-                        },
-                        {
-                            "id": 7236760,
-                            "value": "Test Rights One"
-                        }
-                    ],
-                    "Title": [
-                        {
-                            "id": 6803211,
-                            "value": "Trial 2018"
-                        }
-                    ],
-                    "Creator": [
-                        {
-                            "id": 7236759,
-                            "value": "Test Creator Two"
-                        },
-                        {
-                            "id": 7236758,
-                            "value": "Test Creator One"
-                        }
-                    ],
                     "Language": [
-                        {
-                            "id": 7236763,
-                            "value": "Test Language Two"
-                        },
                         {
                             "id": 7236762,
                             "value": "Test Language One"
+                        },
+                        {
+                            "id": 7236763,
+                            "value": "Test Language Two"
+                        }
+                    ],
+                    "Rights": [
+                        {
+                            "id": 7236760,
+                            "value": "Test Rights One"
+                        },
+                        {
+                            "id": 7236761,
+                            "value": "Test Rights Two"
+                        }
+                    ],
+                    "Subject": [
+                        {
+                            "id": 7236753,
+                            "value": "Test Subject One"
+                        },
+                        {
+                            "id": 7236754,
+                            "value": "Test Subject Two"
                         }
                     ]
                 },
@@ -130,31 +130,31 @@ class MyTestCase(unittest.TestCase):
                 "last_updated_by": "ahanson",
                 "last_updated_date": "2020-07-27T14:08:24.015979Z",
                 "metadata": {
-                    "Description": [
+                     "Collector": [
+                        {
+                            "id": 5305969,
+                            "value": "Hargrett Rare Book & Manuscript Library"
+                        }
+                     ],
+                     "Description": [
                         {
                             "id": 5305970,
                             "value": "This collection contains websites related to the University of Georgia's "
                                      "Division of Student Affairs and student organizations at UGA."
                         }
-                    ],
-                    "Collector": [
-                        {
-                            "id": 5305969,
-                            "value": "Hargrett Rare Book & Manuscript Library"
-                        }
-                    ],
-                    "Title": [
+                     ],
+                     "Title": [
                         {
                             "id": 5962115,
                             "value": "University of Georgia Student Life"
                         }
-                    ],
-                    "Date": [
+                     ],
+                     "Date": [
                         {
                             "id": 5962116,
                             "value": "Captured 2019-"
                         }
-                    ]
+                     ]
                 },
                 "name": "University of Georgia Student Life",
                 "num_active_seeds": 9,
@@ -217,18 +217,6 @@ class MyTestCase(unittest.TestCase):
                 "last_updated_by": "ahanson",
                 "last_updated_date": "2020-07-27T14:06:27.875326Z",
                 "metadata": {
-                    "Description": [
-                        {
-                            "id": 5035318,
-                            "value": "This collections contains websites created by journalists, academics, and other political observers."
-                        }
-                    ],
-                    "Collector": [
-                        {
-                            "id": 5035317,
-                            "value": "Richard B. Russell Library for Political Research and Studies"
-                        }
-                    ],
                     "Title": [
                         {
                             "id": 5035316,
@@ -239,6 +227,18 @@ class MyTestCase(unittest.TestCase):
                         {
                             "id": 5962107,
                             "value": "Captured 2019-"
+                        }
+                    ],
+                    "Description": [
+                        {
+                            "id": 5035318,
+                            "value": "This collections contains websites created by journalists, academics, and other political observers."
+                        }
+                    ],
+                    "Collector": [
+                        {
+                            "id": 5035317,
+                            "value": "Richard B. Russell Library for Political Research and Studies"
                         }
                     ]
                 },
@@ -263,6 +263,12 @@ class MyTestCase(unittest.TestCase):
                 "last_updated_by": "bpieczko",
                 "last_updated_date": "2019-12-19T16:23:12.905659Z",
                 "metadata": {
+                    "Title": [
+                        {
+                            "id": 5035179,
+                            "value": "Activists and Advocates"
+                        }
+                    ],
                     "Description": [
                         {
                             "id": 5035180,
@@ -274,12 +280,6 @@ class MyTestCase(unittest.TestCase):
                         {
                             "id": 5035181,
                             "value": "Richard B. Russell Library for Political Research and Studies"
-                        }
-                    ],
-                    "Title": [
-                        {
-                            "id": 5035179,
-                            "value": "Activists and Advocates"
                         }
                     ],
                     "Date": [
@@ -322,16 +322,16 @@ class MyTestCase(unittest.TestCase):
                                      "employment, recreation, culture and pride."
                         }
                     ],
-                    "Collector": [
-                        {
-                            "id": 5035366,
-                            "value": "Richard B. Russell Library for Political Research and Studies"
-                        }
-                    ],
                     "Title": [
                         {
                             "id": 5035365,
                             "value": "Georgia Disability History Archive"
+                        }
+                    ],
+                    "Collector": [
+                        {
+                            "id": 5035366,
+                            "value": "Richard B. Russell Library for Political Research and Studies"
                         }
                     ],
                     "Date": [
@@ -362,11 +362,23 @@ class MyTestCase(unittest.TestCase):
                 "last_updated_by": "ahanson",
                 "last_updated_date": "2020-07-27T14:24:29.521230Z",
                 "metadata": {
+                    "Title": [
+                        {
+                            "id": 5035336,
+                            "value": "Georgia Politics"
+                        }
+                    ],
                     "Identifier": [
                         {
                             "id": 5962149,
                             "value": "https://wayback.archive-it.org/12265/*/https://www.youtube.com/channel/UC"
                                      "-LF69SBOSgT1S1-yy-VgaA/videos?view=0&sort=dd&shelf_id=0"
+                        }
+                    ],
+                     "Date": [
+                        {
+                            "id": 5035338,
+                            "value": "Captured 2019-"
                         }
                     ],
                     "Description": [
@@ -381,18 +393,6 @@ class MyTestCase(unittest.TestCase):
                         {
                             "id": 5035337,
                             "value": "Richard B. Russell Library for Political Research and Studies"
-                        }
-                    ],
-                    "Title": [
-                        {
-                            "id": 5035336,
-                            "value": "Georgia Politics"
-                        }
-                    ],
-                    "Date": [
-                        {
-                            "id": 5035338,
-                            "value": "Captured 2019-"
                         }
                     ]
                 },
@@ -417,6 +417,12 @@ class MyTestCase(unittest.TestCase):
                 "last_updated_by": "ahanson",
                 "last_updated_date": "2021-01-25T14:27:14.676450Z",
                 "metadata": {
+                    "Collector": [
+                        {
+                            "id": 6803181,
+                            "value": "The Digital Library of Georgia"
+                        }
+                    ],
                     "Description": [
                         {
                             "id": 6803169,
@@ -427,12 +433,6 @@ class MyTestCase(unittest.TestCase):
                         {
                             "id": 6803168,
                             "value": "Georgia Newspapers"
-                        }
-                    ],
-                    "Collector": [
-                        {
-                            "id": 6803181,
-                            "value": "The Digital Library of Georgia"
                         }
                     ]
                 },
@@ -457,16 +457,10 @@ class MyTestCase(unittest.TestCase):
                 "last_updated_by": "ahanson",
                 "last_updated_date": "2021-01-25T14:26:49.778878Z",
                 "metadata": {
-                    "Description": [
+                    "Date": [
                         {
-                            "id": 6803180,
-                            "value": "Websites related to The Now Explosion television program."
-                        }
-                    ],
-                    "Title": [
-                        {
-                            "id": 6803179,
-                            "value": "The Now Explosion"
+                            "id": 6803177,
+                            "value": "Captured 2020"
                         }
                     ],
                     "Collector": [
@@ -475,10 +469,16 @@ class MyTestCase(unittest.TestCase):
                             "value": "The Walter J. Brown Media Archives & Peabody Awards Collection"
                         }
                     ],
-                    "Date": [
+                    "Title": [
                         {
-                            "id": 6803177,
-                            "value": "Captured 2020"
+                            "id": 6803179,
+                            "value": "The Now Explosion"
+                        }
+                    ],
+                    "Description": [
+                        {
+                            "id": 6803180,
+                            "value": "Websites related to The Now Explosion television program."
                         }
                     ]
                 },
@@ -503,10 +503,10 @@ class MyTestCase(unittest.TestCase):
                 "last_updated_by": "ahanson",
                 "last_updated_date": "2020-07-27T14:07:51.214507Z",
                 "metadata": {
-                    "Description": [
+                    "Collector": [
                         {
-                            "id": 5305368,
-                            "value": "This collection contains websites related to the athletic programs at the University of Georgia."
+                            "id": 5305369,
+                            "value": "Hargrett Rare Book & Manuscript Library"
                         }
                     ],
                     "Title": [
@@ -515,16 +515,16 @@ class MyTestCase(unittest.TestCase):
                             "value": "University of Georgia Athletics"
                         }
                     ],
-                    "Collector": [
-                        {
-                            "id": 5305369,
-                            "value": "Hargrett Rare Book & Manuscript Library"
-                        }
-                    ],
                     "Date": [
                         {
                             "id": 5962113,
                             "value": "Captured 2019-"
+                        }
+                    ],
+                    "Description": [
+                        {
+                            "id": 5305368,
+                            "value": "This collection contains websites related to the athletic programs at the University of Georgia."
                         }
                     ]
                 },
@@ -549,12 +549,10 @@ class MyTestCase(unittest.TestCase):
                 "last_updated_by": "ahanson",
                 "last_updated_date": "2020-07-27T14:07:09.505909Z",
                 "metadata": {
-                    "Description": [
+                    "Title": [
                         {
-                            "id": 5305866,
-                            "value": "This collection contains websites related to the University of Georgia's "
-                                     "administration, including the Office of the President, the Provost, "
-                                     "and other leadership roles."
+                            "id": 5962109,
+                            "value": "University of Georgia Administration"
                         }
                     ],
                     "Collector": [
@@ -563,10 +561,12 @@ class MyTestCase(unittest.TestCase):
                             "value": "Hargrett Rare Book & Manuscript Library"
                         }
                     ],
-                    "Title": [
+                    "Description": [
                         {
-                            "id": 5962109,
-                            "value": "University of Georgia Administration"
+                            "id": 5305866,
+                            "value": "This collection contains websites related to the University of Georgia's "
+                                     "administration, including the Office of the President, the Provost, "
+                                     "and other leadership roles."
                         }
                     ],
                     "Date": [
@@ -597,18 +597,6 @@ class MyTestCase(unittest.TestCase):
                 "last_updated_by": "bpieczko",
                 "last_updated_date": "2019-12-19T16:47:37.348593Z",
                 "metadata": {
-                    "Description": [
-                        {
-                            "id": 5035355,
-                            "value": "This collection contains websites documenting business and private enterprise in the state of Georgia."
-                        }
-                    ],
-                    "Title": [
-                        {
-                            "id": 5035356,
-                            "value": "Business"
-                        }
-                    ],
                     "Collector": [
                         {
                             "id": 5035353,
@@ -619,6 +607,18 @@ class MyTestCase(unittest.TestCase):
                         {
                             "id": 5035354,
                             "value": "Captured 2019-"
+                        }
+                    ],
+                    "Description": [
+                        {
+                            "id": 5035355,
+                            "value": "This collection contains websites documenting business and private enterprise in the state of Georgia."
+                        }
+                    ],
+                    "Title": [
+                        {
+                            "id": 5035356,
+                            "value": "Business"
                         }
                     ]
                 },
@@ -643,11 +643,10 @@ class MyTestCase(unittest.TestCase):
                 "last_updated_by": "bpieczko",
                 "last_updated_date": "2019-12-19T16:42:36.412615Z",
                 "metadata": {
-                    "Description": [
+                    "Title": [
                         {
-                            "id": 5035328,
-                            "value": "This collections contains websites created by attorneys, judges, "
-                                     "and organizations working on legal issues in the state of Georgia."
+                            "id": 5035325,
+                            "value": "Legal"
                         }
                     ],
                     "Collector": [
@@ -656,16 +655,17 @@ class MyTestCase(unittest.TestCase):
                             "value": "Richard B. Russell Library for Political Research and Studies"
                         }
                     ],
-                    "Title": [
-                        {
-                            "id": 5035325,
-                            "value": "Legal"
-                        }
-                    ],
                     "Date": [
                         {
                             "id": 5035327,
                             "value": "Captured 2019-"
+                        }
+                    ],
+                    "Description": [
+                        {
+                            "id": 5035328,
+                            "value": "This collections contains websites created by attorneys, judges, "
+                                     "and organizations working on legal issues in the state of Georgia."
                         }
                     ]
                 },
@@ -686,10 +686,28 @@ class MyTestCase(unittest.TestCase):
                 "deleted": False,
                 "id": 15678,
                 "image": 2885233,
-                "last_crawl_date": "2024-05-06T16:28:19.117147Z",
+                "last_crawl_date": "2025-05-01T01:48:54.699578Z",
                 "last_updated_by": "scausey",
                 "last_updated_date": "2022-04-18T14:20:28.536687Z",
                 "metadata": {
+                    "Collector": [
+                        {
+                            "id": 6803187,
+                            "value": "Map and Government Information Library"
+                        }
+                    ],
+                     "Date": [
+                        {
+                            "id": 8454162,
+                            "value": "Captured 2022-"
+                        }
+                    ],
+                    "Title": [
+                        {
+                            "id": 8454163,
+                            "value": "Georgia Government Publications Website Archive"
+                        }
+                    ],
                     "Description": [
                         {
                             "id": 8454376,
@@ -701,35 +719,17 @@ class MyTestCase(unittest.TestCase):
                                      "in these websites are also available in the Digital Library of Georgia, "
                                      "Georgia Government Publications collection."
                         }
-                    ],
-                    "Collector": [
-                        {
-                            "id": 6803187,
-                            "value": "Map and Government Information Library"
-                        }
-                    ],
-                    "Title": [
-                        {
-                            "id": 8454163,
-                            "value": "Georgia Government Publications Website Archive"
-                        }
-                    ],
-                    "Date": [
-                        {
-                            "id": 8454162,
-                            "value": "Captured 2022-"
-                        }
                     ]
                 },
                 "name": "Georgia Government Publications",
-                "num_active_seeds": 88,
+                "num_active_seeds": 89,
                 "num_inactive_seeds": 0,
                 "oai_exported": False,
                 "private_access_token": "814846a798d2404c829aea841003b88c",
                 "publicly_visible": True,
                 "state": "ACTIVE",
                 "topics": None,
-                "total_warc_bytes": 1060079063959
+                "total_warc_bytes": 1177395137739
             },
             {
                 "account": 1468,
@@ -742,30 +742,30 @@ class MyTestCase(unittest.TestCase):
                 "last_updated_by": "sarmour",
                 "last_updated_date": "2021-08-02T18:44:43.813247Z",
                 "metadata": {
-                    "Description": [
-                        {
-                            "id": 7789680,
-                            "value": "This collection contains websites related research and instruction at the University of Georgia."
-                        }
-                    ],
-                    "Title": [
-                        {
-                            "id": 7789682,
-                            "value": "University of Georgia Academics"
-                        }
-                    ],
-                    "Collector": [
-                        {
-                            "id": 7789681,
-                            "value": "Hargrett Rare Book & Manuscript Library"
-                        }
-                    ],
-                    "Date": [
+                     "Date": [
                         {
                             "id": 7789679,
                             "value": "Captured 2021-"
                         }
-                    ]
+                     ],
+                     "Description": [
+                        {
+                            "id": 7789680,
+                            "value": "This collection contains websites related research and instruction at the University of Georgia."
+                        }
+                     ],
+                     "Collector": [
+                        {
+                            "id": 7789681,
+                            "value": "Hargrett Rare Book & Manuscript Library"
+                        }
+                     ],
+                     "Title": [
+                        {
+                            "id": 7789682,
+                            "value": "University of Georgia Academics"
+                        }
+                     ]
                 },
                 "name": "University of Georgia Academics",
                 "num_active_seeds": 1,
@@ -788,12 +788,10 @@ class MyTestCase(unittest.TestCase):
                 "last_updated_by": "sarmour",
                 "last_updated_date": "2024-05-01T15:36:59.521310Z",
                 "metadata": {
-                    "Description": [
+                    "Date": [
                         {
-                            "id": 13219051,
-                            "value": "This collection contains websites documenting the literary, cultural, social, "
-                                     "and economic history of Georgia and its peoples, in accordance with the broader "
-                                     "collection development policy of the Hargrett Library."
+                            "id": 13217902,
+                            "value": "Captured 2024-"
                         }
                     ],
                     "Title": [
@@ -808,10 +806,12 @@ class MyTestCase(unittest.TestCase):
                             "value": "Hargrett Rare Book & Manuscript Library"
                         }
                     ],
-                    "Date": [
+                    "Description": [
                         {
-                            "id": 13217902,
-                            "value": "Captured 2024-"
+                            "id": 13219051,
+                            "value": "This collection contains websites documenting the literary, cultural, social, "
+                                     "and economic history of Georgia and its peoples, in accordance with the broader "
+                                     "collection development policy of the Hargrett Library."
                         }
                     ]
                 },

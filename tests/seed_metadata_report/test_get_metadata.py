@@ -124,7 +124,7 @@ class MyTestCase(unittest.TestCase):
                          'Title': [{'id': 10390998,
                                     'value': 'GALEO – GALEO is a commitment towards greater civic engagement and '
                                              'leadership development of the Latino community across Georgia.'}],
-                         'Language': [{'id': 13218834, 'value': 'Spanish'}, {'id': 13218833, 'value': 'English'}],
+                         'Language': [{'id': 13218833, 'value': 'English'}, {'id': 13218834, 'value': 'Spanish'}],
                          'Relation': [{'id': 10391485, 'value': 'RBRL/513: GALEO Records'}]},
                     'publicly_visible': False, 'seed_groups': [], 'seed_type': 'normal', 'url': 'https://galeo.org/',
                     'valid': None}
